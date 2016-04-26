@@ -1,0 +1,88 @@
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Website #
+###########
+.sass-cache
+*.css.map
+config.codekit
+*.sublime-project
+*.sublime-workspace
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Parameters
+/app/config/parameters.yml
+/app/config/parameters.ini
+
+# Managed by Composer
+/app/bootstrap.php.cache
+/var/bootstrap.php.cache
+/bin/*
+!bin/console
+!bin/symfony_requirements
+
+# PHPUnit
+/app/phpunit.xml
+/phpunit.xml
+
+# Build data
+/build/
+
+# Laravel & Lumen specific #
+############################
+/app/tests/_log
+/app/config/packages
+bootstrap/cache/
+/bootstrap/compiled.php
+/public
+storage/
+vendor/
+node_modules/
+tags
+
+/build/logs
+/build/coverage
+
+Homestead.yaml
+Homestead.json
+
+composer.phar
+
+.env.*.php
+.env.php
+.env
+
+/.idea
+/_ide_helper.php
