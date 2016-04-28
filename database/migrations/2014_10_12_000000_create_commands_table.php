@@ -18,7 +18,7 @@ class CreateCommandsTable extends Migration
             $table->string('command', 255);
             $table->text('data');
             $table->smallInteger('executed');
-            $table->timestamp('created');
+            $table->timestamp('created')->default(DB::raw("CURRENT_TIMESTAMP"));
         });
     }
 
@@ -29,6 +29,6 @@ class CreateCommandsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('users');
+        Schema::drop('commands');
     }
 }

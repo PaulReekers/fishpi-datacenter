@@ -45,17 +45,17 @@
                     </div>                    
                 </div>
                 <div class="panel-body command-extra" id="settemp">
-                    <h3>Set alerting temprature</h3>
+                    <h3>Set alarming temprature</h3>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="alerttemp">Alert temp (orange):</label>
+                        <label class="control-label col-sm-2" for="alarmtemp">Alarm temp (orange):</label>
                         <div class="col-sm-10">
-                          <input type="number" class="form-control" id="alerttemp" value="{{ $alerttemp }}" placeholder="Enter alert temprature" min="-18000" max="50000">
+                          <input type="number" class="form-control" id="alarmtemp" name="alarmtemp" value="{{ $alarmtemp }}" placeholder="Enter alarm temprature" min="-18000" max="50000">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="criticaltemp">Critical temp (red):</label>
                         <div class="col-sm-10">
-                          <input type="number" class="form-control" id="criticaltemp" value="{{ $criticaltemp }}" placeholder="Enter critical temprature" min="-18000" max="50000">
+                          <input type="number" class="form-control" id="criticaltemp" name="criticaltemp" value="{{ $criticaltemp }}" placeholder="Enter critical temprature" min="-18000" max="50000">
                         </div>
                     </div>
                 </div>

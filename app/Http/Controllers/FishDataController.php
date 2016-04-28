@@ -71,5 +71,4 @@ class FishDataController extends Controller
      $response = Response::json($data, 200);
      return $response;
     }
-
 }
