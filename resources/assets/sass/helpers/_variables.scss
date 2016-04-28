@@ -1,0 +1,38 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700);
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
+$fontfamily: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+$MaterialIcons: 'Material Icons';
+
+// Colors:
+$materialGreen: #009688;
+$materialGreenActive: #19A094;
+$succesGreen: #4caf50;
+$infoBlue: #03a9f4;
+$warningRed: #ff5722;
+$dangerRed: #f44336;
+$inverseBlue: #3f51b5;
+
+// Common:
+$background: $materialGreen;
+$color: $materialGreen;
+$bordercolor: $materialGreen;
+
+// Menu:
+$dropdownBackground: $materialGreenActive;
+$menuBackgroundActive: $materialGreenActive;
+
+// Notification
+$backgroundDefault: $materialGreen;
+$backgroundPrimary: $materialGreen;
+$backgroundInverse: $inverseBlue;
+$backgroundSuccess: $succesGreen;
+$backgroundInfo: $infoBlue;
+$backgroundWarning: $warningRed;
+$backgroundDanger: $dangerRed;
+
+$textPrimary: $color;
+$textDanger: $dangerRed;
+$textWarning: $warningRed;
+$textSuccess: $succesGreen;
+$textInfo: $infoBlue;

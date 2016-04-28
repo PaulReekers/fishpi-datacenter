@@ -1,2 +1,28 @@
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "helpers/_variables";
 
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "resources/assets/sass/font-awesome/font-awesome.scss";
+
+// Material design theme
+@import "resources/assets/sass/material-design/bootstrap-material-design";
+@import "resources/assets/sass/material-design/ripples";
+
+
+.text-center .img-responsive {
+    display: inline;
+}
+
+.dropdown-menu {
+    padding: 0;
+}
+
+.navbar {
+    .dropdown-menu .active > a:hover,
+    &.navbar-default .dropdown-menu .active > a:hover {
+        color: $color;
+    }
+}
+
+.fa {
+    padding: 0 5px;
+}

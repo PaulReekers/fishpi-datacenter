@@ -67,6 +67,8 @@ Thumbs.db
 bootstrap/cache/
 /bootstrap/compiled.php
 storage/
+public/css/
+public/js/
 vendor/
 node_modules/
 tags
