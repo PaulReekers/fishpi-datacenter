@@ -18,6 +18,10 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
-Route::get('/admin', 'AdminController@index');
 
+Route::get('/admin', 'AdminController@index');
 Route::post('/admin', array('uses' => 'AdminController@store'));
+
+Route::get('api/v1/data','FishDataController@index');
+Route::get('api/v1/data/{timestamp}','FishDataController@show');
+Route::get('api/v1/data/store','FishDataController@store');
