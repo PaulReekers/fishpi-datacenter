@@ -18,3 +18,6 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/admin', 'AdminController@index');
+
+Route::post('/admin', array('uses' => 'AdminController@store'));
