@@ -15,7 +15,8 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->middleware('auth');
+
         $this->commandList = [
             (object)["id" => "setled", "name" => "Set a led"],
             (object)["id" => "testrun", "name" => "Run a test"],
@@ -46,7 +47,7 @@ class AdminController extends Controller
     }
 
     public function store(Request $request)
-    {        
+    {
         $availableCommands = array_map(function($item){
             return $item->id;
         },$this->commandList);
@@ -59,7 +60,7 @@ class AdminController extends Controller
                 $json = [
                     "led" => $request->led,
                     "clear" => ($request->clear == "on"),
-                    "time" => $request->ledtime, 
+                    "time" => $request->ledtime,
                 ];
             break;
             case "testrun":
