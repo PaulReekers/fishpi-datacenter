@@ -30,7 +30,6 @@ class AdminController extends Controller
      */
     public function index()
     {
-
         $ledList = [
             (object)["id" => "red", "name" => "Red"],
             (object)["id" => "orange", "name" => "Orange"],
@@ -39,9 +38,19 @@ class AdminController extends Controller
 
         $vw = view('admin.index');
         $vw->commands = $this->commandList;
-        $vw->alerttemp = 23000;
+        $vw->alarmtemp = 23000;
         $vw->criticaltemp = 25000;
         $vw->leds = $ledList;
+        return $vw;
+    }
+
+    public function commands()
+    {
+
+        $data = Command::orderBy("created", "desc")->get();
+
+        $vw = view('admin.commands');
+        $vw->commands = $data;
         return $vw;
     }
 
@@ -67,8 +76,8 @@ class AdminController extends Controller
             break;
             case "settemp":
                 $json = [
-                    "alerttemp" => $request->alerttemp,
-                    "criticaltemp" => $request->criticaltemp
+                    "alarmtemp" => (int)$request->alarmtemp,
+                    "criticaltemp" => (int)$request->criticaltemp
                 ];
             break;
         }
@@ -79,6 +88,6 @@ class AdminController extends Controller
         $command->executed = false;
         $command->save();
 
-        return view('admin.commands');
+        return redirect('admin/commands');
     }
 }
