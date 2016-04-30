@@ -41,11 +41,13 @@ class AdminController extends Controller
 
         $alarmtemp = Setting::where("name","=","alarmtemp")->first();
         $criticaltemp = Setting::where("name","=","criticaltemp")->first();
+        $lastIP = Setting::where("name","=","ip")->first();
 
         $vw = view('admin.index');
         $vw->commands = $this->commandList;
         $vw->alarmtemp = $alarmtemp ? $alarmtemp->value : 23000;
         $vw->criticaltemp = $criticaltemp ? $criticaltemp->value : 25000;
+        $vw->lastIP = $lastIP ? $lastIP->value : 25000;
         $vw->leds = $ledList;
         return $vw;
     }

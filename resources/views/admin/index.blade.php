@@ -44,6 +44,12 @@
                         </div>
                     </div>                    
                 </div>
+                <div class="panel-body command-extra" id="askip">
+                    <h3>Retrieve the current IP</h3>
+                    <div>
+                        Last known IP was: {{ $lastIP }}
+                    </div>
+                </div>
                 <div class="panel-body command-extra" id="settemp">
                     <h3>Set alarming temprature</h3>
                     <div class="form-group">
