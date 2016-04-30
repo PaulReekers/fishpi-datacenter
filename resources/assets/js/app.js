@@ -68,6 +68,8 @@ function drawChart( chartData ) {
         fishData.push ( [item.time, (item.water/1000), (item.air/1000)] );
     });
 
+    fishData.reverse();
+
     linechart = new google.visualization.DataTable();
     linechart.addColumn('string');
     linechart.addColumn('number', 'Water');
