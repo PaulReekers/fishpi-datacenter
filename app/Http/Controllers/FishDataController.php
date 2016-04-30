@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Response;
+use App\Setting;
 use App\FishData;
 use Carbon\Carbon;
 use App\Http\Requests;
@@ -79,6 +80,12 @@ class FishDataController extends Controller
          ], 404);
          return $response;
         }
+
+        $alarmtemp = Setting::where("name","=","alarmtemp")->first();
+        $criticaltemp = Setting::where("name","=","criticaltemp")->first();
+
+        $data['alarmtemp'] = $alarmtemp ? $alarmtemp->value : 23000;
+        $data['criticaltemp'] = $criticaltemp ? $criticaltemp->value : 25000;
 
         $response = Response::json($data, 200);
         return $response;

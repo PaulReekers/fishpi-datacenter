@@ -34,12 +34,13 @@ function drawCharts() {
 
 
 function drawGauge( data ) {
+  console.log( data );
     var gaugeOptions = {
         min: 0,
         max: 50,
-        yellowFrom: 28,
-        yellowTo: 32,
-        redFrom: 32,
+        yellowFrom: (data.alarmtemp/1000),
+        yellowTo: (data.criticaltemp/1000),
+        redFrom: (data.criticaltemp/1000),
         redTo: 50,
         minorTicks: 5,
         animation: 500

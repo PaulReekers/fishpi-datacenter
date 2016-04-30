@@ -20,11 +20,14 @@
 
     <div class="container col-md-18">
 
+        <div class="draw-gauge" id="gauge-div"></div>
+        <div class="panel panel-default container"><br>
+            <div class="draw-linechart" id="linechart-div"></div>
+            <br>
+        </div>
         <div class="ustream-container">
             <iframe src="http://www.ustream.tv/embed/22140808?html5ui&volume=0&showtitle=false" style="border: 0 none transparent;"  webkitallowfullscreen allowfullscreen frameborder="no" width="480" height="270"></iframe>
         </div>
-        <div class="draw-gauge" id="gauge-div"></div>
-        <div class="draw-linechart panel panel-default" id="linechart-div"></div>
 
     </div>
 </div>
