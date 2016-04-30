@@ -50,6 +50,13 @@
                         Last known IP was: {{ $lastIP }}
                     </div>
                 </div>
+                <div class="panel-body command-extra" id="compose">
+                    <h3>Compose you're leds</h3>
+                    <div>Use the key's "1" "2" and "3" for the leds, and "N" for none</div>
+                    <div id="compose-list">
+                        <textarea name="json" id="json"></textarea>               
+                    </div>
+                </div>                
                 <div class="panel-body command-extra" id="settemp">
                     <h3>Set alarming temprature</h3>
                     <div class="form-group">

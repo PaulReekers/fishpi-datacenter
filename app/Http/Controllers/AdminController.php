@@ -22,7 +22,8 @@ class AdminController extends Controller
             (object)["id" => "setled", "name" => "Set a led"],
             (object)["id" => "testrun", "name" => "Run a test"],
             (object)["id" => "settemp", "name" => "Set the temp"],
-            (object)["id" => "askip", "name" => "Retrieve the IP"]
+            (object)["id" => "askip", "name" => "Retrieve the IP"],
+            (object)["id" => "compose", "name" => "Compose you're leds"],
         ];
     }
 
@@ -81,6 +82,9 @@ class AdminController extends Controller
             break;
             case "testrun":
                 $json = [];
+            break;
+            case "compose":
+                $json = json_decode($request->json);
             break;
             case "settemp":
                 $json = [
