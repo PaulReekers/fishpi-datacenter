@@ -15,7 +15,9 @@ class FishDataController extends Controller
 
     public function store(Request $request)
     {
-        if((!$request->time) || (!$request->water) || (!$request->air)){
+        $hash = md5($request->air.$request->water.$request->time.env('APP_HASH', ''));
+
+        if((!$request->time) || (!$request->water) || (!$request->air || $hash != $request->hash)){
 
             $response = Response::json([
                 'error' => [
