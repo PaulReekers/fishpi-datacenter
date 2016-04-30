@@ -11,7 +11,11 @@
                     @foreach ($commands as $command)
                         <tr class="executed-{{$command->executed}}">
                             <td>{{$command->command}}</td>
-                            <td>{{$command->data}}</td>
+                            <td>
+                            @if ($command->command != "compose")
+                                {{$command->data}}
+                            @endif
+                            </td>
                             <td>{{$command->created}}</td>
                         <tr>
                     @endforeach
