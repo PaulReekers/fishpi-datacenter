@@ -13,20 +13,13 @@ use App\Http\Controllers\Controller;
 class FishDataController extends Controller
 {
 
-    public function index()
-    {
-        $data = FishData::paginate(200);
-        $response = Response::json($data,200);
-        return $response;
-    }
-
     public function store(Request $request)
     {
         if((!$request->time) || (!$request->water) || (!$request->air)){
 
             $response = Response::json([
                 'error' => [
-                    'message' => 'Please enter all required fields'
+                    'message' => 'Please enter all required fields.'
                 ]
             ], 422);
 
@@ -42,7 +35,7 @@ class FishDataController extends Controller
         $data->save();
 
         $response = Response::json([
-            'message' => 'The post has been created succesfully',
+            'message' => 'The data has been stored succesfully.',
             'data' => $data,
         ], 201);
 
@@ -62,7 +55,7 @@ class FishDataController extends Controller
         if(!$data){
           $response = Response::json([
               'error' => [
-                  'message' => 'This data cannot be found.'
+                  'message' => 'There is no data to show.'
              ]
          ], 404);
          return $response;
@@ -75,6 +68,32 @@ class FishDataController extends Controller
     public function drawGauge() {
 
         $data = FishData::orderBy('time', 'desc')->firstOrFail();;
+
+        if(!$data){
+          $response = Response::json([
+              'error' => [
+                  'message' => 'Gauge data could not be found.'
+             ]
+         ], 404);
+         return $response;
+        }
+
+        $response = Response::json($data, 200);
+        return $response;
+    }
+
+    public function drawLineChart()
+    {
+        $data = FishData::simplePaginate(200);
+
+        if(!$data){
+          $response = Response::json([
+              'error' => [
+                  'message' => 'Linechart could not be found.'
+             ]
+         ], 404);
+         return $response;
+        }
 
         $response = Response::json($data, 200);
         return $response;
