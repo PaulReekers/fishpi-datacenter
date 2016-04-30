@@ -48,7 +48,7 @@ class AdminController extends Controller
         $vw->commands = $this->commandList;
         $vw->alarmtemp = $alarmtemp ? $alarmtemp->value : 23000;
         $vw->criticaltemp = $criticaltemp ? $criticaltemp->value : 25000;
-        $vw->lastIP = $lastIP ? $lastIP->value : 25000;
+        $vw->lastIP = $lastIP ? $lastIP->value : "0.0.0.0";
         $vw->leds = $ledList;
         return $vw;
     }
@@ -91,6 +91,9 @@ class AdminController extends Controller
                     "alarmtemp" => (int)$request->alarmtemp,
                     "criticaltemp" => (int)$request->criticaltemp
                 ];            
+            break;
+            case "askip":
+                $json = [];
             break;
         }
 
