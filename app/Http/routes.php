@@ -26,5 +26,6 @@ Route::get('api/v1/data/store','FishDataController@store');
 Route::get('api/v1/data/current','FishDataController@current');
 Route::get('api/v1/data/{timestamp}','FishDataController@show');
 Route::get('api/v1/drawgauge','FishDataController@drawGauge');
+Route::get('api/v1/drawlinechart','FishDataController@drawLineChart');
 Route::get('api/v1/command','CommandController@index');
 Route::get('api/v1/command/ip','CommandController@getip');
