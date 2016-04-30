@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Command;
+use App\Setting;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,8 @@ class AdminController extends Controller
         $this->commandList = [
             (object)["id" => "setled", "name" => "Set a led"],
             (object)["id" => "testrun", "name" => "Run a test"],
-            (object)["id" => "settemp", "name" => "Set the temp"]
+            (object)["id" => "settemp", "name" => "Set the temp"],
+            (object)["id" => "askip", "name" => "Retrieve the IP"]
         ];
     }
 
@@ -37,10 +39,13 @@ class AdminController extends Controller
             (object)["id" => "green", "name" => "Green"],
         ];
 
+        $alarmtemp = Setting::where("name","=","alarmtemp")->first();
+        $criticaltemp = Setting::where("name","=","criticaltemp")->first();
+
         $vw = view('admin.index');
         $vw->commands = $this->commandList;
-        $vw->alarmtemp = 23000;
-        $vw->criticaltemp = 25000;
+        $vw->alarmtemp = $alarmtemp ? $alarmtemp->value : 23000;
+        $vw->criticaltemp = $criticaltemp ? $criticaltemp->value : 25000;
         $vw->leds = $ledList;
         return $vw;
     }
@@ -79,7 +84,7 @@ class AdminController extends Controller
                 $json = [
                     "alarmtemp" => (int)$request->alarmtemp,
                     "criticaltemp" => (int)$request->criticaltemp
-                ];
+                ];            
             break;
         }
 
