@@ -71,4 +71,12 @@ class FishDataController extends Controller
      $response = Response::json($data, 200);
      return $response;
     }
+
+    public function drawGauge() {
+
+        $data = FishData::orderBy('time', 'desc')->firstOrFail();;
+
+        $response = Response::json($data, 200);
+        return $response;
+    }
 }
