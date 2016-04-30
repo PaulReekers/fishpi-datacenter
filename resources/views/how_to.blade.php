@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('title', 'How to create your own FishPi Datacenter')
 
 @section('content')

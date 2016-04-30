@@ -2,15 +2,26 @@
 @section('title', 'Welcome to the FishPi Datacenter')
 
 @section('content')
-<div class="container col-md-8 col-md-offset-2">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h1>Welcome at the Fishpi Datacenter</h1>
+<div class="container">
+    <div class="row banner">
+
+        <div class="col-md-12">
+
+            <h1 class="text-center margin-top-100">
+                Welcome at the Fishpi Datacenter
+            </h1>
+
+            <h3 class="text-center margin-top-100">How to create your own datacenter fishtank!</h3>
+            <h4 class="text-center margin-top-100">And keep the fishies happy.</h4>
+
         </div>
-        <div class="container">
-            <h3>How to create your own datacenter fishtank!</h3>
-            <h4>And keep the fishies happy.</h4>
-        </div>
+
+    </div>
+
+    <div class="container col-md-18">
+
+         <div class="draw_gauge" id="gauge_div"></div>
+
     </div>
 </div>
 @endsection
