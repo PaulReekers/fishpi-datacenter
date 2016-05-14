@@ -21,7 +21,7 @@
     <div class="container col-md-18">
 
         <div class="draw-gauge" id="gauge-div"></div>
-        <div class="panel panel-default container"><br>
+        <div class="panel panel-default"><br>
             <div class="draw-linechart" id="linechart-div"></div>
             <br>
         </div>
