@@ -1,4 +1,5 @@
 function fishtankGaugeData() {
+
    $.ajax({
       url: 'api/v1/drawgauge',
       dataType: 'json',
@@ -12,6 +13,7 @@ function fishtankGaugeData() {
 }
 
 function fishtankChartData() {
+
    $.ajax({
       url: 'api/v1/drawlinechart',
       dataType: 'json',
@@ -25,16 +27,15 @@ function fishtankChartData() {
 }
 
 
-google.charts.load('current', {'packages':['corechart', 'gauge', 'line'], 'callback': drawCharts});
+google.charts.load('current', {'packages':['gauge', 'line'], 'callback': drawCharts});
 
 function drawCharts() {
   fishtankGaugeData();
   fishtankChartData();
 }
 
-
 function drawGauge( data ) {
-  console.log( data );
+
     var gaugeOptions = {
         min: 0,
         max: 50,
@@ -43,7 +44,8 @@ function drawGauge( data ) {
         redFrom: (data.criticaltemp/1000),
         redTo: 50,
         minorTicks: 5,
-        animation: 500
+        animation: 500,
+        width:380
     };
     var gauge;
 
@@ -59,6 +61,7 @@ function drawGauge( data ) {
 }
 
 function drawChart( chartData ) {
+
     var chartOptions = {
         height: 300
     };
@@ -87,4 +90,11 @@ function drawChart( chartData ) {
 $( document ).ready(function() {
   // This command is used to initialize some elements and make them work properly
   $.material.init();
+
+
+  setInterval(function(){
+    fishtankGaugeData();
+    fishtankChartData();
+  }, 60000);
+
 });
