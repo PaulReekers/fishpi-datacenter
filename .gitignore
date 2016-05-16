@@ -53,25 +53,19 @@ Thumbs.db
 !bin/console
 !bin/symfony_requirements
 
-# PHPUnit
-/app/phpunit.xml
-/phpunit.xml
-
-# Build data
-/build/
 
 # Laravel & Lumen specific #
 ############################
 /app/tests/_log
-/app/config/packages
-bootstrap/cache/
-/bootstrap/compiled.php
-storage/
-public/css/
-public/js/
-vendor/
-node_modules/
+/vendor
+/node_modules
+/public/storage
+
+composer.lock
+phpunit.xml
+
 tags
+
 
 /build/logs
 /build/coverage
@@ -79,10 +73,6 @@ tags
 Homestead.yaml
 Homestead.json
 
-composer.phar
-
-.env.*.php
-.env.php
 .env
 
 /.idea
