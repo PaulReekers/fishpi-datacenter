@@ -22,26 +22,21 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="{{ set_active('/')}}"><a href="{{ url('/') }}">Home</a></li>
                 <li class="{{ set_active('how-to')}}"><a href="{{ url('/how-to') }}">How to</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        @if (Auth::guest())
-                            Member
-                        @else
+                @if (Auth::guest())
+                    <li class="{{ set_active('login')}}"><a href="{{ url('/login') }}">Login</a></li>
+                @else
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             {{ Auth::user()->name }}
-                        @endif
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <!-- Authentication Links -->
-                        @if (Auth::guest())
-                            <li class="{{ set_active('login')}}"><a href="{{ url('/login') }}">Login</a></li>
-                            <li class="{{ set_active('register')}}"><a href="{{ url('/register') }}">Register</a></li>
-                        @else
-                            <li class="{{ set_active('admin')}}"><a href="{{ url('/admin') }}"><i class="fa fa-btn fa-user"></i>Admin</a></li>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="{{ set_active('admin')}}"><a href="{{ url('/admin') }}"><i class="fa fa-btn fa-cog"></i>Admin</a></li>
+                            <li class="{{ set_active('register')}}"><a href="{{ url('/register') }}"><i class="fa fa-btn fa-sign-in"></i>Register new user</a></li>
                             <li class="{{ set_active('logout')}}"><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
-                        @endif
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>
