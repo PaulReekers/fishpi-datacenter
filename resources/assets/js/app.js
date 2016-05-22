@@ -63,7 +63,6 @@ function drawGauge( data ) {
 function drawChart( chartData ) {
 
     var chartOptions = {
-        height: 300
     };
     var linechart;
     var fishData = [];
