@@ -20,7 +20,7 @@ class DailyTweet extends Command
 
     public function handle()
     {
-        $from = Carbon::now()->subDay();
+        $from = Carbon::now()->subHour(1);
         $until = Carbon::now();
         $fishDB = FishData::whereBetween('time', array($from, $until));
 
@@ -29,14 +29,14 @@ class DailyTweet extends Command
         $avgAir = $fishDB->avg('air');
         $maxAir = $fishDB->max('air');
 
-        $tweet = 'Hi, here are the results from the office fishTank for ' .
-Carbon::today()->format('d/m/Y') . ':
+        $tweet = 'The FishTank results from last hour ' .
+Carbon::now()->format('d/m/Y H:i:s') . ':
 Avg water: ' . number_format($avgWater) . '
 Max water: ' . number_format($maxWater) . '
 Avg Air: ' . number_format($avgAir) . '
 Max air: ' . number_format($maxAir);
 
-        $this->info('The daily tweet was sent to Twitter!');
+        $this->info('The tweet was sent to Twitter!');
 
         return Twitter::postTweet(['status' => $tweet, 'format' => 'json']);
 

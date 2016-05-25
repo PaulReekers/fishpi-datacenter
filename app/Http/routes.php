@@ -14,7 +14,6 @@
 Route::get('/', 'PagesController@home');
 Route::get('/how-to', 'PagesController@howTo');
 
-Route::auth();
 
 Route::get('/register', function () {
 
@@ -25,6 +24,8 @@ Route::get('/register', function () {
     }
 
 });
+
+Route::auth();
 
 Route::get('/admin', 'AdminController@index');
 Route::post('/admin', array('uses' => 'AdminController@store'));

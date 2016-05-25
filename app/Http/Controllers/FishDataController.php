@@ -18,7 +18,7 @@ class FishDataController extends Controller
     {
         $hash = md5($request->air.$request->water.$request->time.env('APP_HASH', ''));
 
-        if((!$request->time) || (!$request->water) || (!$request->air || $hash != $request->hash)){
+        if(!$request->time || !$request->water || !$request->air || $hash != $request->hash){
 
             $response = Response::json([
                 'error' => [
@@ -29,11 +29,24 @@ class FishDataController extends Controller
             return $response;
         }
 
-         $data = new FishData(array(
-            'time' => Carbon::createFromTimestamp($request->time),
-            'water' => $request->water,
-            'air' => $request->air,
-         ));
+        if ($request->water < 35 || $request->air < 40) {
+
+            $data = new FishData(array(
+                'time' => Carbon::createFromTimestamp($request->time),
+                'water' => $request->water,
+                'air' => $request->air,
+            ));
+
+        } else {
+
+            $response = Response::json([
+                'error' => [
+                    'message' => 'Data out of bounds'
+                ]
+            ], 422);
+
+            return $response;
+        }
 
         $data->save();
 
