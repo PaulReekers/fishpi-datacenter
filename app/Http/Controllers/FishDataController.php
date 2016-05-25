@@ -29,7 +29,7 @@ class FishDataController extends Controller
             return $response;
         }
 
-        if ($request->water < 35 || $request->air < 40) {
+        if ($request->water < 3500 || $request->air < 4000) {
 
             $data = new FishData(array(
                 'time' => Carbon::createFromTimestamp($request->time),
