@@ -106,7 +106,7 @@ class FishDataController extends Controller
 
     public function drawLineChart()
     {
-        $data = FishData::orderBy('time', 'desc')->simplePaginate(200);
+        $data = FishData::orderBy('time', 'desc')->simplePaginate(950);
 
         if(!$data){
           $response = Response::json([
