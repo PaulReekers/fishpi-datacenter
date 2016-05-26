@@ -62,35 +62,83 @@ function drawGauge( data ) {
 
 function drawChart( chartData ) {
 
-    var chartOptions = {
-        height: 300
-    };
-    var linechart;
-    var fishData = [];
+    var fishDataTime = [];
+    var fishDataAir = [];
+    var fishDataWater = [];
 
     chartData.data.forEach( function( item ) {
-        fishData.push ( [item.time, (item.water/1000), (item.air/1000)] );
+         fishDataTime.push( [item.time]);
+    });
+    chartData.data.forEach( function( item ) {
+         fishDataAir.push( [item.air/1000]);
+    });
+    chartData.data.forEach( function( item ) {
+         fishDataWater.push( [item.water/1000]);
     });
 
-    fishData.reverse();
+    fishDataTime.reverse();
+    fishDataAir.reverse();
+    fishDataWater.reverse();
 
-    linechart = new google.visualization.DataTable();
-    linechart.addColumn('string');
-    linechart.addColumn('number', 'Water');
-    linechart.addColumn('number', 'Air');
-
-    linechart.addRows( fishData );
-
-    var chart = new google.charts.Line( document.getElementById('linechart-div') );
-
-    chart.draw( linechart, chartOptions );
+    $('.draw-linechart').highcharts({
+        chart: {
+            type: 'spline',
+            zoomType: 'x'
+        },
+        title: {
+            text: 'Temperature Office FishTank',
+            x: -20 //center
+        },
+        subtitle: {
+            text: 'Source: FishPi Datacenter',
+            x: -20
+        },
+        credits: {
+            enabled: false
+        },
+        xAxis: {
+            categories: fishDataTime
+        },
+        yAxis: {
+            title: {
+                text: 'Temperature (°C)'
+            },
+            plotBands: [{ // Light air
+                from: 25.5,
+                to: 26.5,
+                color: 'rgba(68, 170, 213, 0.1)',
+                label: {
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }]
+        },
+        tooltip: {
+            valueSuffix: '°C'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Air',
+            data: fishDataAir,
+            color: '#1ca3ec',
+        }, {
+            name: 'Water',
+            data: fishDataWater,
+            color: '#4285f4',
+        }]
+    });
 }
 
 
 $( document ).ready(function() {
   // This command is used to initialize some elements and make them work properly
   $.material.init();
-
 
   setInterval(function(){
     fishtankGaugeData();
