@@ -8,25 +8,29 @@
         <div class="col-md-12">
 
             <h1 class="text-center margin-top-100">
-                Welcome at the FishPi Datacenter
+                Welcome to the FishPi Datacenter
             </h1>
 
-            <h3 class="text-center margin-top-100">How to create your own fishtank datacenter!</h3>
-            <h4 class="text-center margin-top-100">And keep da fishies happy.</h4>
+            <h3 class="text-center margin-top-100">Keep da fishies happy.</h3>
 
         </div>
 
     </div>
 
-    <div class="container col-md-18">
+    <div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+        <div class="draw-gauge-water col-sm-6"></div>
+        <div class="draw-gauge-air col-sm-6"></div>
+    </div>
+    </div>
 
-        <div class="draw-gauge" id="gauge-div"></div>
+    <div class="container col-md-18">
         <div class="panel panel-default">
             <div class="draw-linechart"></div>
         </div>
 
-        <div class="ustream-container">
-            <iframe src="https://www.ustream.tv/embed/22140808?html5ui&volume=0&showtitle=false" style="border: 0 none transparent;"  webkitallowfullscreen allowfullscreen frameborder="no" width="480" height="270"></iframe>
+        <div class="col-lg-6 col-lg-offset-4">
+            <a href="http://www.ustream.tv/channel/5D4k3PAcvz9" target="_blank" class="btn btn-primary">Watch The FishPi Datacenter Live Stream</a>
         </div>
 
     </div>
