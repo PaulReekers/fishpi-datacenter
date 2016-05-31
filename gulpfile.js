@@ -13,10 +13,19 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
     mix.sass('app.scss');
+
     mix.scripts([
         'app.js',
         'material.js',
         'ripples.js',
         'admin.js',
         ], 'public/js/app.js');
+
+    mix.scripts([
+        'vendor/jquery.min.js',
+        'vendor/bootstrap.min.js',
+        'vendor/highcharts.js',
+        'vendor/highcharts-more.js',
+        'vendor/exporting.js',
+        ], 'public/js/vendor/collection.js');
 });
