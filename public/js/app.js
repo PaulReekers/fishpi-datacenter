@@ -1,5 +1,4 @@
 function fishtankGaugeData() {
-
    $.ajax({
       url: 'api/v1/drawgauge',
       dataType: 'json',
@@ -13,7 +12,6 @@ function fishtankGaugeData() {
 }
 
 function fishtankChartData() {
-
    $.ajax({
       url: 'api/v1/drawlinechart',
       dataType: 'json',
@@ -26,38 +24,150 @@ function fishtankChartData() {
     });
 }
 
-
-google.charts.load('current', {'packages':['gauge', 'line'], 'callback': drawCharts});
-
-function drawCharts() {
-  fishtankGaugeData();
-  fishtankChartData();
-}
-
 function drawGauge( data ) {
+    Highcharts.setOptions({
+        chart: {
+            type: 'gauge',
+            backgroundColor:'rgba(255, 255, 255, 0.0)',
+        },
 
-    var gaugeOptions = {
-        min: 0,
-        max: 50,
-        yellowFrom: (data.alarmtemp/1000),
-        yellowTo: (data.criticaltemp/1000),
-        redFrom: (data.criticaltemp/1000),
-        redTo: 50,
-        minorTicks: 5,
-        animation: 500,
-        width:380
-    };
-    var gauge;
+        title: {
+            text: ''
+        },
 
-    gaugeData = new google.visualization.DataTable();
-    gaugeData.addColumn('number', 'Water');
-    gaugeData.addColumn('number', 'Air');
-    gaugeData.addRows(2);
-    gaugeData.setCell(0, 0, (data.water / 1000) );
-    gaugeData.setCell(0, 1, (data.air / 1000) );
+        credits: {
+            enabled: false
+        },
 
-    gauge = new google.visualization.Gauge( document.getElementById('gauge-div') );
-    gauge.draw( gaugeData, gaugeOptions );
+        exporting: {
+            enabled: false
+        },
+        pane: {
+            startAngle: -150,
+            endAngle: 150,
+            background: [{
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#FFF'],
+                        [1, '#333']
+                    ]
+                },
+                borderWidth: 0,
+                outerRadius: '109%'
+            }, {
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#333'],
+                        [1, '#FFF']
+                    ]
+                },
+                borderWidth: 0,
+                outerRadius: '0%'
+            }, {
+                // default background
+            }, {
+
+            }]
+        },
+    });
+
+    $('.draw-gauge-water').highcharts({
+        yAxis: {
+            min: 0,
+            max: 50,
+
+            minorTickInterval: 'auto',
+            minorTickWidth: 1,
+            minorTickLength: 10,
+            minorTickPosition: 'inside',
+            minorTickColor: '#666',
+
+            tickPixelInterval: 30,
+            tickWidth: 2,
+            tickPosition: 'inside',
+            tickLength: 10,
+            tickColor: '#666',
+            labels: {
+                step: 2,
+                rotation: 'auto'
+            },
+            title: {
+                text: 'Water °C'
+            },
+            plotBands: [{
+                from: 0,
+                to: data.alarmtemp / 1000,
+                color: '#55BF3B' // green
+            }, {
+                from: data.alarmtemp / 1000,
+                to: data.criticaltemp/1000,
+                color: '#DDDF0D' // yellow
+            }, {
+                from: data.criticaltemp / 1000,
+                to: 50,
+                color: '#DF5353' // red
+            }]
+        },
+
+        series: [{
+            name: 'Water',
+            data: [data.water / 1000],
+            tooltip: {
+                valueSuffix: '°C'
+            }
+        }]
+
+    });
+
+    $('.draw-gauge-air').highcharts({
+        yAxis: {
+            min: 0,
+            max: 50,
+
+            minorTickInterval: 'auto',
+            minorTickWidth: 1,
+            minorTickLength: 10,
+            minorTickPosition: 'inside',
+            minorTickColor: '#666',
+
+            tickPixelInterval: 30,
+            tickWidth: 2,
+            tickPosition: 'inside',
+            tickLength: 10,
+            tickColor: '#666',
+            labels: {
+                step: 2,
+                rotation: 'auto'
+            },
+            title: {
+                text: 'Air °C'
+            },
+            plotBands: [{
+                from: 0,
+                to: data.alarmtemp / 1000,
+                color: '#55BF3B' // green
+            }, {
+                from: data.alarmtemp / 1000,
+                to: data.criticaltemp / 1000,
+                color: '#DDDF0D' // yellow
+            }, {
+                from: data.criticaltemp / 1000,
+                to: 50,
+                color: '#DF5353' // red
+            }]
+        },
+
+        series: [{
+            name: 'Air',
+            data: [data.air / 1000],
+            tooltip: {
+                valueSuffix: '°C'
+            }
+        }]
+
+    });
 }
 
 function drawChart( chartData ) {
@@ -70,10 +180,10 @@ function drawChart( chartData ) {
          fishDataTime.push( [item.time]);
     });
     chartData.data.forEach( function( item ) {
-         fishDataAir.push( [item.air/1000]);
+         fishDataAir.push( [item.air / 1000] );
     });
     chartData.data.forEach( function( item ) {
-         fishDataWater.push( [item.water/1000]);
+         fishDataWater.push( [item.water / 1000] );
     });
 
     fishDataTime.reverse();
@@ -97,7 +207,7 @@ function drawChart( chartData ) {
             enabled: false
         },
         xAxis: {
-            categories: fishDataTime
+            categories: fishDataTime,
         },
         yAxis: {
             title: {
@@ -126,25 +236,26 @@ function drawChart( chartData ) {
         series: [{
             name: 'Air',
             data: fishDataAir,
-            color: '#1ca3ec',
+            color: '#f7a35c',
         }, {
             name: 'Water',
             data: fishDataWater,
-            color: '#4285f4',
+            color: '#7cb5ec',
         }]
     });
 }
 
+setInterval(function() {
+    fishtankGaugeData();
+    fishtankChartData();
+}, 60000);
 
 $( document ).ready(function() {
   // This command is used to initialize some elements and make them work properly
   $.material.init();
 
-  setInterval(function(){
-    fishtankGaugeData();
-    fishtankChartData();
-  }, 60000);
-
+  fishtankGaugeData();
+  fishtankChartData();
 });
 
 /* globals jQuery */
