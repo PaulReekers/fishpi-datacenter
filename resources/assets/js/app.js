@@ -1,30 +1,34 @@
+// Set date format to Dutch
+moment.locale('nl');
+
 function fishtankGaugeData() {
    $.ajax({
-      url: 'api/v1/drawgauge',
+      url: 'api/v1/current',
       dataType: 'json',
       success: function( data ) {
-        drawGauge( data );
+        current( data );
       },
       error: function( req, status, err ) {
-        console.log( 'creating drawGauge went wrong', status, err );
+        console.log( 'creating gauge data went wrong', status, err );
       }
     });
 }
 
+
 function fishtankChartData() {
    $.ajax({
-      url: 'api/v1/drawlinechart',
+      url: 'api/v1/collection',
       dataType: 'json',
       success: function( data ) {
         drawChart( data );
       },
       error: function( req, status, err ) {
-        console.log( 'creating chartData went wrong', status, err );
+        console.log( 'Creating chartData went wrong', status, err );
       }
     });
 }
 
-function drawGauge( data ) {
+function current( data ) {
     Highcharts.setOptions({
         chart: {
             type: 'gauge',
@@ -93,9 +97,11 @@ function drawGauge( data ) {
                 step: 2,
                 rotation: 'auto'
             },
+
             title: {
                 text: 'Water °C'
             },
+
             plotBands: [{
                 from: 0,
                 to: data.alarmtemp / 1000,
@@ -195,20 +201,25 @@ function drawChart( chartData ) {
             type: 'spline',
             zoomType: 'x'
         },
+
         title: {
             text: 'Temperature Office FishTank',
             x: -20 //center
         },
+
         subtitle: {
             text: 'Source: FishPi Datacenter',
             x: -20
         },
+
         credits: {
             enabled: false
         },
+
         xAxis: {
             categories: fishDataTime,
         },
+
         yAxis: {
             title: {
                 text: 'Temperature (°C)'
@@ -223,6 +234,9 @@ function drawChart( chartData ) {
                     }
                 }
             }]
+        },
+        exporting: {
+            enabled: true
         },
         tooltip: {
             valueSuffix: '°C'

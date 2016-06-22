@@ -70,28 +70,30 @@ class FishDataController extends Controller
 
         if(!$data){
           $response = Response::json([
-              'error' => [
-                  'message' => 'There is no data to show.'
-             ]
-         ], 404);
-         return $response;
+            'error' => [
+                'message' => 'There is no data to show.'
+            ]
+        ], 404);
+
+            return $response;
         }
 
-     $response = Response::json($data, 200);
-     return $response;
+        $response = Response::json($data, 200);
+        return $response;
     }
 
-    public function drawGauge() {
+    public function current() {
 
         $data = FishData::orderBy('time', 'desc')->firstOrFail();;
 
         if(!$data){
-          $response = Response::json([
-              'error' => [
-                  'message' => 'Gauge data could not be found.'
-             ]
-         ], 404);
-         return $response;
+            $response = Response::json([
+                'error' => [
+                    'message' => 'Current data could not be found.'
+                ]
+            ], 404);
+
+            return $response;
         }
 
         $alarmtemp = Setting::where("name","=","alarmtemp")->first();
@@ -104,20 +106,20 @@ class FishDataController extends Controller
         return $response;
     }
 
-    public function drawLineChart()
+    public function collection()
     {
         $data = FishData::orderBy('time', 'desc')->simplePaginate(950);
 
         if(!$data){
-          $response = Response::json([
-              'error' => [
-                  'message' => 'Linechart could not be found.'
-             ]
-         ], 404);
-         return $response;
-        }
+            $response = Response::json([
+                'error' => [
+                    'message' => 'Collection data could not be found.'
+                ]
+            ], 404);
+            return $response;
+      }
 
-        $response = Response::json($data, 200);
-        return $response;
+      $response = Response::json($data, 200);
+      return $response;
     }
 }
