@@ -183,7 +183,7 @@ function drawChart( chartData ) {
     var fishDataWater = [];
 
     chartData.data.forEach( function( item ) {
-         fishDataTime.push( [item.time]);
+         fishDataTime.push( [moment(item.time).format('LTS')] );
     });
     chartData.data.forEach( function( item ) {
          fishDataAir.push( [item.air / 1000] );

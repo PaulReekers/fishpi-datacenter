@@ -24,6 +24,8 @@ elixir(function(mix) {
     mix.scripts([
         'vendor/jquery.min.js',
         'vendor/bootstrap.min.js',
+        'vendor/moment.js',
+        'vendor/moment-with-locales.js',
         'vendor/highcharts.js',
         'vendor/highcharts-more.js',
         'vendor/exporting.js',
