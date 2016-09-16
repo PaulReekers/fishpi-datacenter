@@ -25,6 +25,13 @@ Route::get('/register', function () {
 
 });
 
+Route::any('/webhook', 'ConversationController@conversation');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('bots', 'BotsController');
+    Route::resource('bots/{id}/qna', 'QuestionsAndAnswerController');
+});
+
 Route::auth();
 
 Route::get('/admin', 'AdminController@index');
