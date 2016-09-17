@@ -38,10 +38,8 @@ Max air: ' . number_format($maxAir);
 
         $this->info('The tweet was sent to Twitter!');
 
-        if ($avgWater > 0)
-        {
-            return Twitter::postTweet(['status' => $tweet, 'format' => 'json']);
-        }
+        return Twitter::postTweet(['status' => $tweet, 'format' => 'json']);
+
     }
 
 }
