@@ -8,7 +8,7 @@
         <div class="col-md-12">
 
             <h1 class="text-center margin-top-100">
-                Welcome to the FishPi Datacenter
+                Welcome to the FishPi Datacenter!
             </h1>
 
             <h3 class="text-center margin-top-100">Keep da fishies happy.</h3>
@@ -29,8 +29,9 @@
             <div class="draw-linechart"></div>
         </div>
 
-        <div class="col-lg-6 col-lg-offset-4">
-            <a href="http://www.ustream.tv/channel/5D4k3PAcvz9" target="_blank" class="btn btn-primary">Watch The FishPi Datacenter Live Stream</a>
+        <div class="text-center">
+            <a href="https://youtu.be/U4RwWMN276U" target="_blank" class="btn btn-primary">Watch The FishPi Datacenter Live Stream</a>
+            <div class="small"><strong>Note:</strong> Fishies need sleep too, at night the stream is offline</div>
         </div>
 
     </div>

@@ -121,7 +121,8 @@ function current( data ) {
             name: 'Water',
             data: [data.water / 1000],
             tooltip: {
-                valueSuffix: '°C'
+                valueSuffix: '°C',
+                crosshairs: true
             }
         }]
 
@@ -183,7 +184,7 @@ function drawChart( chartData ) {
     var fishDataWater = [];
 
     chartData.data.forEach( function( item ) {
-         fishDataTime.push( [moment(item.time).format('LTS')] );
+         fishDataTime.push( [moment(item.time).format('HH:mm:ss')] );
     });
     chartData.data.forEach( function( item ) {
          fishDataAir.push( [item.air / 1000] );
@@ -977,7 +978,7 @@ function keyLogger()
 				break;
 				default:
 					lastKey = false;
-			}		
+			}
 		}
 	});
 

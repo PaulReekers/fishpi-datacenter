@@ -37,6 +37,15 @@ class FishDataController extends Controller
                 'air' => $request->air,
             ));
 
+            $data->save();
+
+            $response = Response::json([
+                'message' => 'The data has been stored succesfully.',
+                'data' => $data,
+            ], 201);
+
+            return $response;
+
         } else {
 
             $response = Response::json([
@@ -48,14 +57,6 @@ class FishDataController extends Controller
             return $response;
         }
 
-        $data->save();
-
-        $response = Response::json([
-            'message' => 'The data has been stored succesfully.',
-            'data' => $data,
-        ], 201);
-
-        return $response;
     }
 
     /**
