@@ -20,7 +20,7 @@ class DailyTweet extends Command
 
     public function handle()
     {
-        $from = Carbon::now()->subHour(1);
+        $from = Carbon::now()->subDay();
         $until = Carbon::now();
         $fishDB = FishData::whereBetween('time', array($from, $until));
 
@@ -29,7 +29,7 @@ class DailyTweet extends Command
         $avgAir = $fishDB->avg('air');
         $maxAir = $fishDB->max('air');
 
-        $tweet = 'The FishTank results from last hour ' .
+        $tweet = 'The FishTank results from last day ' .
 Carbon::now()->format('d/m/Y H:i:s') . ':
 Avg water: ' . number_format($avgWater) . '
 Max water: ' . number_format($maxWater) . '
