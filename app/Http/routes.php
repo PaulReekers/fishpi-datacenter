@@ -33,10 +33,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('bots/{id}/qna', 'QuestionsAndAnswerController');
 });
 
-Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-
 Route::auth();
 
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 Route::get('/admin', 'AdminController@index');
 Route::post('/admin', array('uses' => 'AdminController@store'));
