@@ -25,7 +25,8 @@ Route::get('/register', function () {
 
 });
 
-Route::any('/webhook', 'ConversationController@conversation');
+Route::post('/webhook', 'BotController@receive');
+Route::get('/webhook', 'BotController@check');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('bots', 'BotsController');
