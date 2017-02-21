@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\FacebookMessageResponseSender;
+
 
 class BotController extends Controller
 {
@@ -15,8 +17,18 @@ class BotController extends Controller
     return 'Wrong validation token';
   }
 
-  public function receive(Request $request)
+  public function receive(Request $request, FacebookMessageResponseSender $sender)
   {
+      $incomingMessages = $request->get('entry');
+      $incomingMessageText = $incomingMessages[0]['messaging'][0]['message']['text'];
+      $incomingMessageSenderId = $incomingMessages[0]['messaging'][0]['sender']['id'];
+      //if($this->isAskingForQuote($incomingMessageText)) {
+        $quote = "My quote: ".$incomingMessageText;
+        $sender->sendQuote(
+          $incomingMessageSenderId,
+          $quote
+        );
+      //}
   }
 
 }
