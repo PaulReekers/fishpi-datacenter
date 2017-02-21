@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-class CommandController extends Controller
+use Illuminate\Http\Request;
+
+class BotController extends Controller
 {
 
   public function check(Request $request)
