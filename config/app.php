@@ -148,8 +148,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         //Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
-        '\Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
-
 
         /*
          * Application Service Providers...
