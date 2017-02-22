@@ -19,16 +19,35 @@ class BotController extends Controller
 
   public function receive(Request $request, FacebookMessageResponseSender $sender)
   {
-      $incomingMessages = $request->get('entry');
-      $incomingMessageText = $incomingMessages[0]['messaging'][0]['message']['text'];
-      $incomingMessageSenderId = $incomingMessages[0]['messaging'][0]['sender']['id'];
-      //if($this->isAskingForQuote($incomingMessageText)) {
-        $quote = "My quote: ".$incomingMessageText;
-        $sender->sendQuote(
-          $incomingMessageSenderId,
-          $quote
-        );
-      //}
+    $incomingMessages = $request->get('entry');
+    if (!$incomingMessages) {
+      return;
+    }
+
+    Log::info('incoming message: '.json_encode($incomingMessages));
+    if (!is_array($incomingMessages)) {
+      return;
+    }
+    foreach ($incomingMessages as $key => $value) {
+      if (!isset($value["messaging"]) || !is_array($value["messaging"])) {
+        continue;
+      }
+      foreach ($value["messaging"] as $message) {
+        if (!isset($message["text"]) || !isset($message["id"])) {
+          continue;
+        }
+        $this->sendMessage($message["id"], $message["text"]);
+      }
+    }
+  }
+
+  private function sendMessage($to, $text)
+  {
+    $quote = "My quote: ".$text;
+    $sender->sendQuote(
+      $to,
+      $quote
+    );
   }
 
 }
