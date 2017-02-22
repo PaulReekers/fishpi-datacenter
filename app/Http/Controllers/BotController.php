@@ -45,12 +45,12 @@ class BotController extends Controller
           Log::notice('missing sender id or message text');
           continue;
         }
-        $this->sendMessage($message["sender"]["id"], $message["message"]["text"]);
+        $this->sendMessage($sender, $message["sender"]["id"], $message["message"]["text"]);
       }
     }
   }
 
-  private function sendMessage($to, $text)
+  private function sendMessage($sender, $to, $text)
   {
     $quote = "My quote: ".$text;
     $sender->sendQuote(
