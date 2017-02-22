@@ -25,19 +25,27 @@ class BotController extends Controller
       return;
     }
 
-    Log::info('incoming message: '.json_encode($incomingMessages));
+    Log::info(json_encode($incomingMessages));
     if (!is_array($incomingMessages)) {
+      Log::notice('incoming message not an array');
       return;
     }
     foreach ($incomingMessages as $key => $value) {
       if (!isset($value["messaging"]) || !is_array($value["messaging"])) {
+        Log::notice('missing messaging object');
         continue;
       }
       foreach ($value["messaging"] as $message) {
-        if (!isset($message["text"]) || !isset($message["id"])) {
+        if (
+          !isset($message["sender"]) ||
+          !isset($message["sender"]["id"]) ||
+          !isset($message["message"]) ||
+          !isset($message["message"]["text"])
+        ) {
+          Log::notice('missing sender id or message text');
           continue;
         }
-        $this->sendMessage($message["id"], $message["text"]);
+        $this->sendMessage($message["sender"]["id"], $message["message"]["text"]);
       }
     }
   }
