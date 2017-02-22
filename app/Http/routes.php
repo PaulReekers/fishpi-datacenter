@@ -35,8 +35,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::auth();
 
-Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-
 Route::get('/admin', 'AdminController@index');
 Route::post('/admin', array('uses' => 'AdminController@store'));
 
@@ -50,3 +48,7 @@ Route::get('api/v1/current','FishDataController@current');
 Route::get('api/v1/collection','FishDataController@collection');
 Route::get('api/v1/command','CommandController@index');
 Route::get('api/v1/command/ip','CommandController@getip');
+
+if (Auth::user()) {
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+}
