@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -49,6 +48,4 @@ Route::get('api/v1/collection','FishDataController@collection');
 Route::get('api/v1/command','CommandController@index');
 Route::get('api/v1/command/ip','CommandController@getip');
 
-if (Auth::user()) {
-    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-}
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
