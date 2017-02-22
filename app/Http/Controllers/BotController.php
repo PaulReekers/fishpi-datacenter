@@ -37,9 +37,18 @@ class BotController extends Controller
       }
       foreach ($value["messaging"] as $message) {
         if (
+          !isset($message["message"]) ||
+          (
+            isset($message["message"]["is_echo"]) &&
+            $message["message"]["is_echo"]
+          )
+        ) {
+          Log::notice('echo, not send to sender');
+          continue;
+        }
+        if (
           !isset($message["sender"]) ||
           !isset($message["sender"]["id"]) ||
-          !isset($message["message"]) ||
           !isset($message["message"]["text"])
         ) {
           Log::notice('missing sender id or message text');
