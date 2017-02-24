@@ -62,7 +62,7 @@ class BotController extends Controller
   private function sendMessage($sender, $to, $text)
   {
     $quote = "My quote: ".$text;
-    $sender->sendQuote(
+    return $sender->sendQuote(
       $to,
       $quote
     );
