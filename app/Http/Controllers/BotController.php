@@ -3,13 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\FacebookMessageResponseSender;
+use App\Services\FacebookMessageHandler;
 use Log;
 
 
 class BotController extends Controller
 {
 
+  private $handler = null;
+
+  public function __construct(FacebookMessageHandler $handler)
+  {
+    $this->handler = $handler;
+  }
+
+  /**
+   * Facebook check webhook
+   * @param  Request $request [description]
+   * @return String
+   */
   public function check(Request $request)
   {
     if($request->get('hub_verify_token') == env('VERIFY_TOKEN')) {
@@ -18,54 +30,13 @@ class BotController extends Controller
     return 'Wrong validation token';
   }
 
-  public function receive(Request $request, FacebookMessageResponseSender $sender)
+  /**
+   * Receive webhook data
+   * @param  Request $request
+   */
+  public function receive(Request $request)
   {
     $incomingMessages = $request->get('entry');
-    if (!$incomingMessages) {
-      return;
-    }
-
-    Log::info(json_encode($incomingMessages));
-    if (!is_array($incomingMessages)) {
-      Log::notice('incoming message not an array');
-      return;
-    }
-    foreach ($incomingMessages as $key => $value) {
-      if (!isset($value["messaging"]) || !is_array($value["messaging"])) {
-        Log::notice('missing messaging object');
-        continue;
-      }
-      foreach ($value["messaging"] as $message) {
-        if (
-          !isset($message["message"]) ||
-          (
-            isset($message["message"]["is_echo"]) &&
-            $message["message"]["is_echo"]
-          )
-        ) {
-          Log::notice('echo, not send to sender');
-          continue;
-        }
-        if (
-          !isset($message["sender"]) ||
-          !isset($message["sender"]["id"]) ||
-          !isset($message["message"]["text"])
-        ) {
-          Log::notice('missing sender id or message text');
-          continue;
-        }
-        $this->sendMessage($sender, $message["sender"]["id"], $message["message"]["text"]);
-      }
-    }
+    $this->handler->handle($incomingMessages);
   }
-
-  private function sendMessage($sender, $to, $text)
-  {
-    $quote = "My quote: ".$text;
-    return $sender->sendQuote(
-      $to,
-      $quote
-    );
-  }
-
 }

@@ -9,7 +9,8 @@ class Kernel extends ConsoleKernel
 {
 
     protected $commands = [
-        'App\Console\Commands\DailyTweet'
+        'App\Console\Commands\DailyTweet',
+        'App\Console\Commands\FacebookWebhookTest'
     ];
 
     protected function schedule(Schedule $schedule)
