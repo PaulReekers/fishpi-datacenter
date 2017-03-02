@@ -30,7 +30,7 @@
         </div>
 
         <div class="text-center">
-            <a href="https://youtu.be/U4RwWMN276U" target="_blank" class="btn btn-primary">Watch The FishPi Datacenter Live Stream</a>
+            <a href="http://www.youtube.com/channel/UCjEPY1NzMI2qq6gQFhMiP0Q/live" target="_blank" class="btn btn-primary">Watch The FishPi Datacenter Live Stream</a>
             <div class="small"><strong>Note:</strong> Fishies need sleep too, at night the stream is offline</div>
         </div>
 
