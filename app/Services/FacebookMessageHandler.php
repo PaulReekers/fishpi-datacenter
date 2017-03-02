@@ -2,16 +2,19 @@
 
 namespace App\Services;
 
+use App\Services\MessageParser;
 use App\Services\FacebookMessageResponseSender;
 use Log;
 
 class FacebookMessageHandler
 {
 
+  private $parser = null;
   private $sender = null;
 
-  public function __construct(FacebookMessageResponseSender $sender)
+  public function __construct(FacebookMessageResponseSender $sender, MessageParser $parser)
   {
+    $this->parser = $parser;
     $this->sender = $sender;
   }
 
@@ -85,13 +88,12 @@ class FacebookMessageHandler
    */
   private function checkMessage($from, $text)
   {
-
-    // checking the messages goes in here
-    // for now we just reply with the same message
-
-    $this->sendMessage($from, $text);
+    $response = $this->parser->handle($text);
+    Log::notice($response);
+    if ($response) {
+      $this->sendMessage($from, $response);
+    }
   }
-
 
   /**
    * Send message
@@ -102,10 +104,6 @@ class FacebookMessageHandler
    */
   private function sendMessage($to, $text)
   {
-    $quote = "My quote: ".$text;
-    return $this->sender->sendQuote(
-      $to,
-      $quote
-    );
+    return $this->sender->sendQuote($to, $text);
   }
 }
