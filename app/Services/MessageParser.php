@@ -41,7 +41,7 @@ class MessageParser
     if (!$data) {
       return "n/a";
     }
-    return $data["water"];
+    return $this->toReadableTemp($data["water"]);
   }
 
   /**
@@ -54,7 +54,16 @@ class MessageParser
     if (!$data) {
       return "n/a";
     }
-    return $data["air"];
+    return $this->toReadableTemp($data["air"]);
+  }
+
+  private function toReadableTemp($temp)
+  {
+    if (!is_numeric($temp)) {
+      return $temp;
+    }
+    $temp = $temp / 1000;
+    return round($temp, 2);
   }
 
 }
