@@ -101,7 +101,11 @@ class FacebookMessageHandler
 
     if ($action = $this->parser->getResponseAction()) {
       Log::notice("Try to run: ".$action);
-      $actionResponseText = $this->runner->callAction($action, $this->parser->getResponseActionParams());
+      Log::notice(json_encode($this->parser->getResponseActionParams()));
+      $actionResponseText = $this->runner->callAction(
+        $action,
+        $this->parser->getResponseActionParams()
+      );
       if ($actionResponseText) {
         $responseText = $actionResponseText;
       }

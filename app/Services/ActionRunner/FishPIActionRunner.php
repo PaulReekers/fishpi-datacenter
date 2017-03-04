@@ -16,6 +16,7 @@ class FishPIActionRunner extends ActionRunner
    */
   protected function getTemperature($text, $type = false)
   {
+    Log::notice('Type: '.$type);
     $temp = $this->getTemperatureFromDb($type);
     return str_replace("*temperature*", $temp, $text);
   }
@@ -52,7 +53,7 @@ class FishPIActionRunner extends ActionRunner
    * @return String
    */
   private function getTemperatureFromDb($type) {
-    if ($type) {
+    if (!$type) {
       return "n/a";
     }
     try {
