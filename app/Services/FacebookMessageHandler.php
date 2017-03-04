@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Services\MessageParser;
+use App\Services\MessageParser\APIAIMessageParser;
+use App\Services\ActionRunner\FishPIActionRunner;
 use App\Services\FacebookMessageResponseSender;
 use Log;
 
@@ -11,11 +12,16 @@ class FacebookMessageHandler
 
   private $parser = null;
   private $sender = null;
+  private $runner = null;
 
-  public function __construct(FacebookMessageResponseSender $sender, MessageParser $parser)
+  public function __construct(
+    FacebookMessageResponseSender $sender,
+    APIAIMessageParser $parser,
+    FishPIActionRunner $runner)
   {
     $this->parser = $parser;
     $this->sender = $sender;
+    $this->runner = $runner;
   }
 
   /**
@@ -88,10 +94,22 @@ class FacebookMessageHandler
    */
   private function checkMessage($from, $text)
   {
-    $response = $this->parser->handle($text);
-    Log::notice($response);
-    if ($response) {
-      $this->sendMessage($from, $response);
+    $this->parser->handle($from, $text);
+
+    $responseText = $this->parser->getResponseText();
+    Log::notice("Parsed text: ".$responseText);
+
+    if ($action = $this->parser->getResponseAction()) {
+      Log::notice("Try to run: ".$action);
+      $actionResponseText = $this->runner->callAction($action, $this->parser->getResponseActionParams());
+      if ($actionResponseText) {
+        $responseText = $actionResponseText;
+      }
+    }
+
+    if ($responseText) {
+      Log::notice("Send text");
+      $this->sendMessage($from, $responseText);
     }
   }
 
