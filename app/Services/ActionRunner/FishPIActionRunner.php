@@ -10,6 +10,12 @@ use Log;
 class FishPIActionRunner extends ActionRunner
 {
 
+  private $statsTypeList = [
+    "Average",
+    "Maximum",
+    "Minimum"
+  ];
+
   /**
    * Get current water temp
    * @return [type] [description]
@@ -18,6 +24,17 @@ class FishPIActionRunner extends ActionRunner
   {
     Log::notice('Type: '.$type);
     $temp = $this->getTemperatureFromDb($type);
+    return $this->replaceTempInText($text, $temp);
+  }
+
+  protected function getTemperatureStats($text, $date, $statsType, $type)
+  {
+    $temp = $this->getTemperatureStatsFromDb($date, $statsType, $type);
+    return $this->replaceTempInText($text, $temp);
+  }
+
+  protected function replaceTempInText($text, $temp)
+  {
     return str_replace("*temperature*", $temp, $text);
   }
 
@@ -48,6 +65,39 @@ class FishPIActionRunner extends ActionRunner
   }
 
   /**
+   * Get temperature stats from database
+   * @param  [type] $date      [description]
+   * @param  [type] $statsType [description]
+   * @param  [type] $type      [description]
+   * @return [type]            [description]
+   */
+  private function getTemperatureStatsFromDb($date, $statsType, $type)
+  {
+    if (!in_array($statsType, $this->statsTypeList)) {
+      Log::notice("Wrong stats type: ".$statsType);
+      return "n/a";
+    }
+    try {
+      $data = FishData::where("time", strtotime($date));
+      switch($statsType) {
+        case "Average":
+          $temp = $data->avg($type);
+        break;
+        case "Maximum":
+          $temp = $data->max($type);
+        break;
+        case "Minimum":
+          $temp = $data->min($type);
+        break;
+      }
+    } catch (\Exception $e) {
+      Log::error($e->getMessage());
+      return "n/a";
+    }
+    return $this->toReadableTemp($temp);
+  }
+
+  /**
    * get temperature from the database
    * @param  String $type
    * @return String
@@ -59,7 +109,7 @@ class FishPIActionRunner extends ActionRunner
     try {
       $data = FishData::orderBy('time', 'desc')->firstOrFail();
     } catch (\Exception $e) {
-      return $type." temperature n/a";
+      return "n/a";
     }
     return $this->toReadableTemp($data[$type]);
   }
