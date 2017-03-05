@@ -78,7 +78,7 @@ class FishPIActionRunner extends ActionRunner
       return "n/a";
     }
     try {
-      $data = FishData::where("time", strtotime($date));
+      $data = FishData::whereDate("time", '=', date('Y-m-d',strtotime($date)));
       switch($statsType) {
         case "Average":
           $temp = $data->avg($type);
