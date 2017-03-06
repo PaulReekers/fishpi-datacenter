@@ -44,9 +44,12 @@ class FishPIActionRunner extends ActionRunner
    * @param [type] $onOrOf [description]
    * @param [type] $led    [description]
    */
-  protected function setLed($text, $onOrOf, $led)
+  protected function setLed($text, $led, $onOrOf)
   {
     Log::info("Turn led: ".$led." - ".$onOrOf);
+    if (!$led || !$onOrOf) {
+      return $text;
+    }
 
     try {
       $command = new Command;
