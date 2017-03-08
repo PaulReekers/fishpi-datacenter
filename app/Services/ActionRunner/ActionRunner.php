@@ -4,10 +4,24 @@ namespace App\Services\ActionRunner;
 
 class ActionRunner implements ActionRunnerInterface
 {
+
+  protected $responseImages = [];
+  protected $responseTexts = [];
+
+  public function getResponseTexts()
+  {
+    return $this->responseTexts;
+  }
+
+  public function getResponseImages()
+  {
+    return $this->responseImages;
+  }
+
   public function callAction($action, $params)
   {
     if (!method_exists($this, $action)) {
-      return;
+      return false;
     }
 
     // call the action and return with the result

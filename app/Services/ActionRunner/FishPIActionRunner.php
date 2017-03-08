@@ -18,21 +18,34 @@ class FishPIActionRunner extends ActionRunner
 
   /**
    * Get current water temp
-   * @return [type] [description]
    */
   protected function getTemperature($text, $type = false)
   {
     Log::notice('Type: '.$type);
     $temp = $this->getTemperatureFromDb($type);
-    return $this->replaceTempInText($text, $temp);
+    $this->responseTexts[] = $this->replaceTempInText($text, $temp);
+    return true;
   }
 
+  /**
+   * Get temperature statistics
+   * @param  String   $text
+   * @param  Time     $date
+   * @param  String   $statsType
+   * @param  String   $type
+   */
   protected function getTemperatureStats($text, $date, $statsType, $type)
   {
     $temp = $this->getTemperatureStatsFromDb($date, $statsType, $type);
-    return $this->replaceTempInText($text, $temp);
+    $this->responseTexts[] = $this->replaceTempInText($text, $temp);
+    return true;
   }
 
+  /**
+   * Replace temperature within the text
+   * @param  String   $text
+   * @param  String   $temp
+   */
   protected function replaceTempInText($text, $temp)
   {
     return str_replace("*temperature*", $temp, $text);
@@ -48,7 +61,8 @@ class FishPIActionRunner extends ActionRunner
   {
     Log::info("Turn led: ".$led." - ".$onOrOff);
     if (!$led || !$onOrOff) {
-      return $text;
+      $this->responseTexts[] = $text;
+      return false;
     }
 
     try {
@@ -62,9 +76,11 @@ class FishPIActionRunner extends ActionRunner
       $command->save();
     } catch (\Exception $e) {
       Log::info("Db not available");
+      return false;
     }
 
-    return $text;
+    $this->responseTexts[] = $text;
+    return true;
   }
 
   /**

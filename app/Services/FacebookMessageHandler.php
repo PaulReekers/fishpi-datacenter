@@ -96,22 +96,22 @@ class FacebookMessageHandler
   {
     $this->parser->handle($from, $text);
 
-    $responseText = $this->parser->getResponseText();
-    Log::notice("Parsed text: ".$responseText);
+    $responseTexts = [
+      $this->parser->getResponseText()
+    ];
 
     if ($action = $this->parser->getResponseAction()) {
       Log::notice("Try to run: ".$action);
-      Log::notice(json_encode($this->parser->getResponseActionParams()));
-      $actionResponseText = $this->runner->callAction(
-        $action,
-        $this->parser->getResponseActionParams()
-      );
-      if ($actionResponseText) {
-        $responseText = $actionResponseText;
+
+      $params = $this->parser->getResponseActionParams();
+      Log::notice(json_encode($params));
+      if ($this->runner->callAction($action, $params)) {
+        $responseTexts = $this->runner->getResponseTexts();
+        $responseImages = $this->runner->getResponseImages();
       }
     }
 
-    if ($responseText) {
+    foreach ($responseTexts as $responseText) {
       Log::notice("Send text");
       $this->sendMessage($from, $responseText);
     }
