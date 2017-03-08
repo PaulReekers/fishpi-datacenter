@@ -50,8 +50,9 @@ class FacebookMessageResponseSender
      */
     public function sendImage($recipientUserId, $file)
     {
-        $fileContent = fopen(storage_path('app/'.$file), 'r');
-        $fileMimeType = Storage::mimeType($file);
+        $filePath = resource_path('assets/images/'.$file);
+        $fileContent = fopen($filePath, 'r');
+        $fileMimeType = mime_content_type($filePath);
         $fileName = basename($file);
 
         $client = new Client(['base_uri' => 'https://graph.facebook.com/v2.6/']);
