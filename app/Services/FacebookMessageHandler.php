@@ -114,24 +114,12 @@ class FacebookMessageHandler
 
     foreach ($responseTexts as $responseText) {
       Log::notice("Send text");
-      $this->sendMessage($from, $responseText);
+      $this->sender->sendQuote($from, $responseText);
     }
 
     foreach ($responseImages as $responseImage) {
       Log::notice("Send image");
-      $this->sendImage($from, $responseImage);
+      $this->sender->sendImage($from, $responseImage);
     }
-  }
-
-  /**
-   * Send message
-   * @param  Client     $sender
-   * @param  Int        $to
-   * @param  String     $text
-   * @return Bool
-   */
-  private function sendMessage($to, $text)
-  {
-    return $this->sender->sendQuote($to, $text);
   }
 }

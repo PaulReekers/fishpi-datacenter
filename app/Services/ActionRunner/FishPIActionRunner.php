@@ -42,16 +42,6 @@ class FishPIActionRunner extends ActionRunner
   }
 
   /**
-   * Replace temperature within the text
-   * @param  String   $text
-   * @param  String   $temp
-   */
-  protected function replaceTempInText($text, $temp)
-  {
-    return str_replace("*temperature*", $temp, $text);
-  }
-
-  /**
    * Set led
    * @param [type] $text   [description]
    * @param [type] $onOrOf [description]
@@ -81,6 +71,23 @@ class FishPIActionRunner extends ActionRunner
 
     $this->responseTexts[] = $text;
     return true;
+  }
+
+  protected function iLoveLego()
+  {
+    $this->responseTexts = [];
+    $this->responseImages[] = 'lego.png';
+    return true;
+  }
+
+  /**
+   * Replace temperature within the text
+   * @param  String   $text
+   * @param  String   $temp
+   */
+  private function replaceTempInText($text, $temp)
+  {
+    return str_replace("*temperature*", $temp, $text);
   }
 
   /**
