@@ -96,6 +96,7 @@ class FacebookMessageHandler
   {
     $this->parser->handle($from, $text);
 
+    $responseImages = [];
     $responseTexts = [
       $this->parser->getResponseText()
     ];
@@ -114,6 +115,11 @@ class FacebookMessageHandler
     foreach ($responseTexts as $responseText) {
       Log::notice("Send text");
       $this->sendMessage($from, $responseText);
+    }
+
+    foreach ($responseImages as $responseImage) {
+      Log::notice("Send image");
+      $this->sendImage($from, $responseImage);
     }
   }
 
