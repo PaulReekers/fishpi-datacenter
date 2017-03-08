@@ -73,6 +73,52 @@ class FishPIActionRunner extends ActionRunner
     return true;
   }
 
+  protected function getImageOfFishes()
+  {
+    // determine the name of the file to save (max 1 per minute)
+    $file = "fishes-".date("Y-m-d-H-i").".png";
+    // store the image in the assets resource directory
+    $image = resource_path('assets/images/'.$file);
+
+    $this->responseTexts = [];
+    $this->responseImages = [];
+
+    // if the file already exists we want to return that one and not regenerate it, so we have a
+    // max of 1 image per minute
+    if (file_exists($image)) {
+      $this->responseImages[] = $file;
+      return true;
+    } else {
+      // get the youtube url of the live stream
+      $output = false;
+      try {
+        \exec("youtube-dl -g https://www.youtube.com/channel/UCjEPY1NzMI2qq6gQFhMiP0Q/live", $output);
+      } catch (\Exception $e) {
+        Log::error($e->getMessage());
+        return false;
+      }
+
+      // if we cant get the url return
+      if (!$output || !is_array($output)) {
+        return false;
+      }
+
+      // get the thumbnail from the youtube stream
+      $youtubeUrl = $output[0];
+      try {
+        \exec('ffmpeg -i '.$youtubeUrl.' -vf "thumbnail,scale=1280:720" -frames:v 1 '.$image, $output);
+      } catch (\Exception $e) {
+        Log::error($e->getMessage());
+        return false;
+      }
+
+      // return the just created thumbnail
+      $this->responseImages[] = $file;
+      return true;
+    }
+    return false;
+  }
+
   protected function iLoveLego()
   {
     $this->responseTexts = [];
