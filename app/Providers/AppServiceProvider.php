@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
             if($client->connect()) {
                 $client->publish('fishpi/' . $command->command, json_encode([
                     'command' => $command->command,
-                    'data' => $command->data
+                    'data' => json_decode($command->data, true)
                  ]));
                 $client->close();
             }
