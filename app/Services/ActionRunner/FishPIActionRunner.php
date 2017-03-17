@@ -5,7 +5,6 @@ namespace App\Services\ActionRunner;
 use App\Command;
 use App\Services\ActionRunner\ActionRunner;
 use App\FishData;
-use App\Extensions\phpMQTT;
 use Log;
 
 class FishPIActionRunner extends ActionRunner
@@ -65,13 +64,6 @@ class FishPIActionRunner extends ActionRunner
       ]);
       $command->executed = true;
       $command->save();
-      
-      $mqtt = new phpMQTT(env('MQTT_HOST'), env('MQTT_PORT', 1883), env('MQTT_CLIENT')); 
-      
-      if ($mqtt->connect()) {
-	    $mqtt->publish("setled", $command->data);
-	    $mqtt->close();
-      }
     } catch (\Exception $e) {
       Log::info("Db not available");
       return false;
