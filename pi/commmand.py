@@ -6,6 +6,8 @@ import base64
 import json
 import RPi.GPIO as GPIO
 import socket
+import uuid
+import paho.mqtt.client as mqtt
 
 LED_RED = 17
 LED_GREEN = 22
@@ -15,6 +17,9 @@ URL_PREFIX = '<URL>'
 URL_ENDPOINT = '/api/v1/command'
 URL_USERNAME = '******'
 URL_PASSWORD = '******'
+MQTT_HOST = '95.85.5.39'
+MQTT_CLIENT = uuid.uuid4().urn[9:]
+MQTT_CHANNEL = 'fishpi/#'
 
 def initLeds():
   GPIO.setmode(GPIO.BCM)
@@ -149,14 +154,23 @@ def clearLeds():
   offLed(LED_GREEN)
   offLed(LED_RED)
 
-initLeds()
-while 1==1:
-  ret = getCommand()
+def mqttConnect(client, data, flags, rc):
+  m="Connected flags"+str(flags)+"result code "+str(rc)+"client1_id  "+str(client)
+  print(m)
 
-  #ret = '{"command":"setled","data":{"led":"red","clear":true,"time":"3"}}';
-  #ret = '{"command":"testrun", "data":[]}';
-  #ret = '{"command":"compose","data":[{"led":"green","time":1.144},{"led":"orange","time":1.384},{"led":"red","time":1.78},{"led":"orange","time":2.02},{"led":"clear","time":2.255}]}'
-
+def mqttMessage(client, userdata, message):
+  ret = str(message.payload.decode("utf-8"))
+  print("message received  ", ret)
   parseCommand(ret)
-  time.sleep(3)
 
+initLeds()
+
+client = mqtt.Client(MQTT_CLIENT)
+client.on_connect = mqttConnect
+client.on_message = mqttMessage
+time.sleep(1)
+client.connect(MQTT_HOST)
+client.loop_start()
+client.subscribe(MQTT_CHANNEL)
+while 1:
+  time.sleep(.1)
