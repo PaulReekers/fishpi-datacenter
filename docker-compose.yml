@@ -11,4 +11,12 @@ services:
     image: php:7.1-fpm
     volumes:
       - .:/code
+  subscriber:
+    image: python
+    volumes:
+      - .:/code
+    command:
+      - tail
+      - -f
+      - /dev/null
 
