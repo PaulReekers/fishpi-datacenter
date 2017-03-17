@@ -34,6 +34,7 @@ def initLeds():
   GPIO.setup(LED_YELLOW,GPIO.OUT)
   GPIO.setup(LIGHT1,GPIO.OUT)
   GPIO.setup(LIGHT2, GPIO.OUT)
+  GPIO.setup(LIGHT3, GPIO.OUT)
   offLed(LED_YELLOW)
   offLed(LED_GREEN)
   offLed(LED_RED)
