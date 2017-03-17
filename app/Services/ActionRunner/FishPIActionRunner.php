@@ -99,6 +99,27 @@ class FishPIActionRunner extends ActionRunner
     return true;
   }
 
+  protected function runDisco()
+  {
+    try {
+      $command = new Command;
+      $command->command = 'runtest';
+      $command->data = '';
+      $command->executed = true;
+      $command->save();
+
+      $command = new Command;
+      $command->command = 'runtestlights';
+      $command->data = '';
+      $command->executed = true;
+      $command->save();
+
+    } catch (\Exception $e) {
+      Log::info("Db not available");
+      return false;
+    }
+  }
+
   protected function getImageOfFishes($text)
   {
     // determine the name of the file to save (max 1 per minute)
