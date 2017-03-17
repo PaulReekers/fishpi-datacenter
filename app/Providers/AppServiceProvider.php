@@ -21,7 +21,10 @@ class AppServiceProvider extends ServiceProvider
                 $name = uniqid("fishpi-"); // just generate a unquie name everytime
                 $client = new \App\Extensions\phpMQTT(env('MQTT_HOST'), env('MQTT_PORT', 1883), $name);
                 if($client->connect()) {
-                    $client->publish('fishpi/' . $command->command, $command->data);
+                    $client->publish('fishpi/' . $command->command, [
+                        'command' => $command->command,
+                        'data' => $command->data
+                     ]);
                     $client->close();
                 }
             } catch (\Exception $e) {
