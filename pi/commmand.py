@@ -13,12 +13,12 @@ import paho.mqtt.client as mqtt
 LED_RED = 17
 LED_GREEN = 22
 LED_YELLOW = 18
-LED_WHITE = 21
+LED_WHITE = 27
 LED_BLUE = 24
 
 LIGHT1 = 23
 LIGHT2 = 25
-#LIGHT3 = 24
+LIGHT3 = 0
 
 URL_PREFIX = '<URL>'
 URL_ENDPOINT = '/api/v1/command'
@@ -92,6 +92,8 @@ def runCommand(command, data):
     runCompose(data)
   elif command == "askip":
     runGetIp()
+  elif command == "testrunlights":
+    runTestLights(4)
 
 def runGetIp():
   ip = get_ip_address()
@@ -148,6 +150,23 @@ def getLed(data):
     led = 0
   return led
 
+def runTestLights(loops):
+  speed=1
+  clearLeds()
+  onLed(LIGHT2)
+  time.sleep(speed)
+  offLed(LIGHT2)
+  onLed(LIGHT1)
+  time.sleep(speed)
+  offLed(LIGHT1)
+  onLed(LIGHT3)
+  time.sleep(speed)
+  offLed(LIGHT3)
+  loops-=1
+  if loops>1:
+    runTestLights(loops)
+  
+
 def runTest(speed):
   clearLeds()
   onLed(LED_GREEN)
@@ -159,6 +178,12 @@ def runTest(speed):
   onLed(LED_RED)
   time.sleep(speed)
   offLed(LED_RED)
+  onLed(LED_BLUE)
+  time.sleep(speed)
+  offLed(LED_BLUE)
+  onLed(LED_WHITE)
+  time.sleep(speed)
+  offLed(LED_WHITE)
   speed-=0.01
   if speed>0:
     runTest(speed)
