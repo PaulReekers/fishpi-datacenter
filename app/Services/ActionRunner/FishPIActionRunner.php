@@ -104,13 +104,13 @@ class FishPIActionRunner extends ActionRunner
     try {
       $command = new Command;
       $command->command = 'runtest';
-      $command->data = '';
+      $command->data = json_encode([]);
       $command->executed = true;
       $command->save();
 
       $command = new Command;
       $command->command = 'runtestlights';
-      $command->data = '';
+      $command->data = json_encode([]);
       $command->executed = true;
       $command->save();
 
