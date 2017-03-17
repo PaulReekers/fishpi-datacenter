@@ -38,6 +38,8 @@ class AdminController extends Controller
             (object)["id" => "red", "name" => "Red"],
             (object)["id" => "orange", "name" => "Orange"],
             (object)["id" => "green", "name" => "Green"],
+            (object)["id" => "lamp1", "name" => "Light 1"],
+            (object)["id" => "lamp2", "name" => "Light 2"],
         ];
 
         $alarmtemp = Setting::where("name","=","alarmtemp")->first();
@@ -90,7 +92,7 @@ class AdminController extends Controller
                 $json = [
                     "alarmtemp" => (int)$request->alarmtemp,
                     "criticaltemp" => (int)$request->criticaltemp
-                ];            
+                ];
             break;
             case "askip":
                 $json = [];
