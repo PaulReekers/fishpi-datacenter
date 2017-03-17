@@ -13,6 +13,9 @@ LED_RED = 17
 LED_GREEN = 22
 LED_YELLOW = 18
 
+LIGHT1 = 23
+LIGHT2 = 25
+
 URL_PREFIX = '<URL>'
 URL_ENDPOINT = '/api/v1/command'
 URL_USERNAME = '******'
@@ -27,9 +30,13 @@ def initLeds():
   GPIO.setup(LED_RED,GPIO.OUT)
   GPIO.setup(LED_GREEN,GPIO.OUT)
   GPIO.setup(LED_YELLOW,GPIO.OUT)
+  GPIO.setup(LIGHT1,GPIO.OUT)
+  GPIO.setup(LIGHT2, GPIO.OUT)
   offLed(LED_YELLOW)
   offLed(LED_GREEN)
   offLed(LED_RED)
+  offLed(LIGHT1)
+  offLed(LIGHT2)
 
 def getCommand():
   url = URL_PREFIX+URL_ENDPOINT
@@ -117,6 +124,10 @@ def getLed(data):
     led = LED_GREEN
   elif data["led"] == "orange":
     led = LED_YELLOW
+  elif data["led"] == "lamp1":
+    led = LIGHT1
+  elif data["led"] == "lamp2":
+    led = LIGHT2
   else:
     led = 0
   return led
