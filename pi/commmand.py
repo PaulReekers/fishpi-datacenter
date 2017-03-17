@@ -172,9 +172,12 @@ def mqttConnect(client, data, flags, rc):
   print(m)
 
 def mqttMessage(client, userdata, message):
-  ret = str(message.payload.decode("utf-8"))
-  print("message received  ", ret)
-  parseCommand(ret)
+  try:
+    ret = str(message.payload.decode("utf-8"))
+    print("message received  ", ret)
+    parseCommand(ret)
+  except Exception as e:
+    print str(e)
 
 initLeds()
 
