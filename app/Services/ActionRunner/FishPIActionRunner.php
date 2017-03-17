@@ -63,7 +63,7 @@ class FishPIActionRunner extends ActionRunner
 
   protected function setLedOn($text, $led)
   {
-    $this->setLed($text, $led, true, 3);
+    $this->setLed($text, $led, true, 15);
   }
 
   /**
