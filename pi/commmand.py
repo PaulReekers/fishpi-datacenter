@@ -164,6 +164,8 @@ def clearLeds():
   offLed(LED_YELLOW)
   offLed(LED_GREEN)
   offLed(LED_RED)
+  offLed(LIGHT1)
+  offLed(LIGHT2)
 
 def mqttConnect(client, data, flags, rc):
   m="Connected flags"+str(flags)+"result code "+str(rc)+"client1_id  "+str(client)
