@@ -17,6 +17,26 @@ class FishPIActionRunner extends ActionRunner
   ];
 
   /**
+   * Get temperature of air
+   * @param  String $text
+   * @return String
+   */
+  protected function getTemperatureAir($text)
+  {
+    return $this->getTemperature($text, "air");
+  }
+
+  /**
+   * Get temperature of water
+   * @param  String $text
+   * @return String
+   */
+  protected function getTemperatureWater($text)
+  {
+    return $this->getTemperature($text, "water");
+  }
+
+  /**
    * Get current water temp
    */
   protected function getTemperature($text, $type = false)
