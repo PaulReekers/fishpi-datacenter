@@ -2,7 +2,7 @@
 # pip install paho-mqtt
 
 import paho.mqtt.client as mqtt  #import the client1
-import time
+import time, sys, uuid
 
 def on_connect(client, userdata, flags, rc):
     m="Connected flags"+str(flags)+"result code "\
@@ -14,10 +14,12 @@ def on_message(client1, userdata, message):
     print("message received  "  ,str(message.payload.decode("utf-8")))
 
 
+broker_address = raw_input("Please provide the server address: ");
 # Please add correct address
-broker_address="95.85.5.39"
-
-client1 = mqtt.Client("P1")
+# broker_address="95.85.5.39"
+client_name = uuid.uuid4()
+print "Starting a client : ", client_name.urn[9:]
+client1 = mqtt.Client(client_name.urn[9:])
 client1.on_connect= on_connect
 client1.on_message=on_message
 time.sleep(1)
