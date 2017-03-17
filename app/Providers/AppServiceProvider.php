@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Services\APIAIClient;
 use GuzzleHttp\Client;
+use App\Command;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +16,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Command::created(function ($command){
+            try {
+                $name = uniqid("fishpi-"); // just generate a unquie name everytime
+                $client = new \App\Extensions\phpMQTT(env('MQTT_HOST'), env('MQTT_PORT', 1883), $name);
+                if($client->connect()) {
+                    $client->publish('fishpi/' . $command->command, $command->data);
+                    $client->close();
+                }
+            } catch (\Exception $e) {
+                throw new \Exception("Publishing to fishpi failed", $e);
+            }
+        }); 
     }
 
     /**
