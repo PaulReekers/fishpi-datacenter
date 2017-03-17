@@ -7,6 +7,7 @@ import json
 import RPi.GPIO as GPIO
 import socket
 import uuid
+from multiprocessing import Pool
 import paho.mqtt.client as mqtt
 
 LED_RED = 17
@@ -55,7 +56,6 @@ def callURL(url):
 def sendIP(ip):
   url = URL_PREFIX+URL_ENDPOINT+'/ip?ip='+ip
   callURL(url)
-
 
 def parseCommand(command):
   print "Parse command: "+command
@@ -114,8 +114,9 @@ def runSetLed(data):
   else:
     onLed(led)
   if "time" in data and  data["time"]:
-    time.sleep(float(data["time"]))
-    offLed(led)
+    pool = Pool(processes=1)
+    pool.apply_async(offLed, [led, float(data["time"])])
+    pool.close()
 
 def getLed(data):
   if data["led"] == "red":
@@ -147,7 +148,9 @@ def runTest(speed):
   if speed>0:
     runTest(speed)
 
-def offLed(led):
+def offLed(led, sleep=0):
+  if sleep > 0 and sleep < 60 :
+    time.sleep(sleep)
   GPIO.output(led,GPIO.LOW)
 
 def onLed(led):
