@@ -99,14 +99,14 @@ class FishPIActionRunner extends ActionRunner
     return true;
   }
 
-  protected function getImageOfFishes()
+  protected function getImageOfFishes($text)
   {
     // determine the name of the file to save (max 1 per minute)
     $file = "fishes-".date("Y-m-d-H-i").".png";
     // store the image in the assets resource directory
     $image = resource_path('assets/images/'.$file);
 
-    //$this->responseTexts = [];
+    $this->responseTexts[] = $text;
     $this->responseImages = [];
 
     // if the file already exists we want to return that one and not regenerate it, so we have a
