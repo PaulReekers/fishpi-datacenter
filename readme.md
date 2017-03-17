@@ -17,3 +17,6 @@ To find a list of all the variables you can customize open:
 
 ### Create tables
 Run `php artisan migrate` to create all the tables and colummns.
+
+### Create MQTT server 
+Run `docker-compose -d up`

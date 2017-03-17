@@ -62,7 +62,7 @@ class FishPIActionRunner extends ActionRunner
         "led" => $led,
         "onOrOff" => $onOrOff
       ]);
-      $command->executed = false;
+      $command->executed = true;
       $command->save();
     } catch (\Exception $e) {
       Log::info("Db not available");
