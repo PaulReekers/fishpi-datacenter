@@ -61,6 +61,11 @@ class FishPIActionRunner extends ActionRunner
     return true;
   }
 
+  protected function setLedOn($text, $led)
+  {
+    $this->setLed($text, $led, true);
+  }
+
   /**
    * Set led
    * @param [type] $text   [description]
