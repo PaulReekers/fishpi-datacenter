@@ -40,6 +40,7 @@ class AdminController extends Controller
             (object)["id" => "green", "name" => "Green"],
             (object)["id" => "lamp1", "name" => "Light 1"],
             (object)["id" => "lamp2", "name" => "Light 2"],
+            (object)["id" => "lamp3", "name" => "Light 3"],
         ];
 
         $alarmtemp = Setting::where("name","=","alarmtemp")->first();

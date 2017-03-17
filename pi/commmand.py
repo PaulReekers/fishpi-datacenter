@@ -16,6 +16,7 @@ LED_YELLOW = 18
 
 LIGHT1 = 23
 LIGHT2 = 25
+LIGHT3 = 24
 
 URL_PREFIX = '<URL>'
 URL_ENDPOINT = '/api/v1/command'
@@ -129,6 +130,8 @@ def getLed(data):
     led = LIGHT1
   elif data["led"] == "lamp2":
     led = LIGHT2
+  elif data["led"] == "lamp3":
+    led = LIGHT3
   else:
     led = 0
   return led
@@ -169,6 +172,7 @@ def clearLeds():
   offLed(LED_RED)
   offLed(LIGHT1)
   offLed(LIGHT2)
+  offLed(LIGHT3)
 
 def mqttConnect(client, data, flags, rc):
   client.subscribe(MQTT_CHANNEL)
