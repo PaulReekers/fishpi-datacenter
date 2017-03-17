@@ -63,7 +63,7 @@ class FishPIActionRunner extends ActionRunner
 
   protected function setLedOn($text, $led)
   {
-    $this->setLed($text, $led, true);
+    $this->setLed($text, $led, true, 3);
   }
 
   /**
@@ -72,7 +72,7 @@ class FishPIActionRunner extends ActionRunner
    * @param [type] $onOrOf [description]
    * @param [type] $led    [description]
    */
-  protected function setLed($text, $led, $onOrOff)
+  protected function setLed($text, $led, $onOrOff, $time = 10000)
   {
     Log::info("Turn led: ".$led." - ".$onOrOff);
     if (!$led || !$onOrOff) {
@@ -85,7 +85,8 @@ class FishPIActionRunner extends ActionRunner
       $command->command = 'setled';
       $command->data = json_encode([
         "led" => $led,
-        "onOrOff" => $onOrOff
+        "onOrOff" => $onOrOff,
+        "time" => $time
       ]);
       $command->executed = true;
       $command->save();
