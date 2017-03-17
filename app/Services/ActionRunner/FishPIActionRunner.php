@@ -106,7 +106,7 @@ class FishPIActionRunner extends ActionRunner
     // store the image in the assets resource directory
     $image = resource_path('assets/images/'.$file);
 
-    $this->responseTexts = [];
+    //$this->responseTexts = [];
     $this->responseImages = [];
 
     // if the file already exists we want to return that one and not regenerate it, so we have a
