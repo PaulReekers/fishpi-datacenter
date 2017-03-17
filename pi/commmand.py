@@ -168,6 +168,7 @@ def clearLeds():
   offLed(LIGHT2)
 
 def mqttConnect(client, data, flags, rc):
+  client.subscribe(MQTT_CHANNEL)
   m="Connected flags"+str(flags)+"result code "+str(rc)+"client1_id  "+str(client)
   print(m)
 
@@ -187,6 +188,5 @@ client.on_message = mqttMessage
 time.sleep(1)
 client.connect(MQTT_HOST)
 client.loop_start()
-client.subscribe(MQTT_CHANNEL)
 while 1:
   time.sleep(.1)
