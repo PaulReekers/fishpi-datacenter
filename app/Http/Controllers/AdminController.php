@@ -38,6 +38,8 @@ class AdminController extends Controller
             (object)["id" => "red", "name" => "Red"],
             (object)["id" => "orange", "name" => "Orange"],
             (object)["id" => "green", "name" => "Green"],
+            (object)["id" => "white", "name" => "White"],
+            (object)["id" => "blue", "name" => "Blue"],
             (object)["id" => "lamp1", "name" => "Light 1"],
             (object)["id" => "lamp2", "name" => "Light 2"],
             (object)["id" => "lamp3", "name" => "Light 3"],

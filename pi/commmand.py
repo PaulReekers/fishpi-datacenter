@@ -13,10 +13,12 @@ import paho.mqtt.client as mqtt
 LED_RED = 17
 LED_GREEN = 22
 LED_YELLOW = 18
+LED_WHITE = 21
+LED_BLUE = 24
 
 LIGHT1 = 23
 LIGHT2 = 25
-LIGHT3 = 24
+#LIGHT3 = 24
 
 URL_PREFIX = '<URL>'
 URL_ENDPOINT = '/api/v1/command'
@@ -32,14 +34,19 @@ def initLeds():
   GPIO.setup(LED_RED,GPIO.OUT)
   GPIO.setup(LED_GREEN,GPIO.OUT)
   GPIO.setup(LED_YELLOW,GPIO.OUT)
+  GPIO.setup(LED_WHITE,GPIO.OUT)
+  GPIO.setup(LED_BLUE,GPIO.OUT)
   GPIO.setup(LIGHT1,GPIO.OUT)
   GPIO.setup(LIGHT2, GPIO.OUT)
   GPIO.setup(LIGHT3, GPIO.OUT)
   offLed(LED_YELLOW)
   offLed(LED_GREEN)
   offLed(LED_RED)
+  offLed(LED_WHITE)
+  offLed(LED_BLUE)
   offLed(LIGHT1)
   offLed(LIGHT2)
+  offLed(LIGHT3)
 
 def getCommand():
   url = URL_PREFIX+URL_ENDPOINT
@@ -127,6 +134,10 @@ def getLed(data):
     led = LED_GREEN
   elif data["led"] == "orange":
     led = LED_YELLOW
+  elif data["led"] == "white":
+    led = LED_WHITE
+  elif data["led"] == "blue":
+    led = LED_BLUE
   elif data["led"] == "lamp1":
     led = LIGHT1
   elif data["led"] == "lamp2":
@@ -171,6 +182,8 @@ def clearLeds():
   offLed(LED_YELLOW)
   offLed(LED_GREEN)
   offLed(LED_RED)
+  offLed(LED_WHITE)
+  offLed(LED_BLUE)
   offLed(LIGHT1)
   offLed(LIGHT2)
   offLed(LIGHT3)
