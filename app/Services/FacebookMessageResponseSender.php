@@ -18,6 +18,25 @@ class FacebookMessageResponseSender
     {
         $client = new Client(['base_uri' => 'https://graph.facebook.com/v2.6/']);
 
+        if (is_array($message)) {
+            $quickreplies = $message["quickreplies"];
+            $message = $message["text"];
+        }
+
+        $messageData = ['text' => $message];
+        if (!empty($quickreplies)) {
+            $messageData['quick_replies'] = [];
+            foreach ($quickreplies as $quickreply) {
+                $messageData['quick_replies'][] = [
+                    "content_type" => "text",
+                    "title" => $quickreply,
+                    "payload" => $quickreply,
+                ];
+            }
+        }
+
+        Log::notice(json_encode($messageData));
+
         try {
             $client->request(
                 'POST',
@@ -28,9 +47,7 @@ class FacebookMessageResponseSender
                         'recipient' => [
                             'id' => $recipientUserId
                         ],
-                        'message' => [
-                            'text' => $message,
-                        ]
+                        'message' => $messageData
                     ],
                 ]
             );

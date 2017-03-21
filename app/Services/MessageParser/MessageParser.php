@@ -6,6 +6,8 @@ class MessageParser implements MessageParserInterface
 {
   protected $responseText = false;
 
+  protected $responseQuickReplies = [];
+
   protected $responseAction = false;
 
   protected $responseActionParams = [];
@@ -28,5 +30,10 @@ class MessageParser implements MessageParserInterface
   public function getResponseActionParams()
   {
     return $this->responseActionParams;
+  }
+
+  public function getResponseQuickReplies()
+  {
+    return $this->responseQuickReplies;
   }
 }

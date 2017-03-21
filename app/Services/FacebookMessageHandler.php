@@ -95,10 +95,20 @@ class FacebookMessageHandler
   private function checkMessage($from, $text)
   {
     $this->parser->handle($from, $text);
+    $this->handleParserResponse($from);
+  }
+
+  private function handleParserResponse($from)
+  {
+
+    Log::notice($this->parser->getResponseText());
 
     $responseImages = [];
     $responseTexts = [
-      $this->parser->getResponseText()
+      [
+        "text" => $this->parser->getResponseText(),
+        "quickreplies" => $this->parser->getResponseQuickReplies()
+      ]
     ];
 
     if ($action = $this->parser->getResponseAction()) {

@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
 class FacebookWebhookTest extends Command
 {
 
-    protected $signature = 'facebook:webhooktest {host} {from} {text}';
+    protected $signature = 'facebook:webhooktest {--host=} {--from=} {--text=} {--json=}';
     protected $description = 'Test a webhook message with text of facebook';
 
     private $client = null;
@@ -21,11 +21,21 @@ class FacebookWebhookTest extends Command
 
     public function handle()
     {
-      $host = $this->argument('host');
-      $fromId = $this->argument('from');
-      $text = $this->argument('text');
+      $host = $this->option('host');
+      if (!$host) {
+        $host = 'http://localhost:8000/webhook';
+      }
+      $fromId = $this->option('from');
+      $text = $this->option('text');
+      $json = $this->option('json');
 
-      $this->sendTestMessage($host, $fromId, $text);
+      if ($text && $fromId) {
+        $json = $this->sendTestMessage($fromId, $text);
+      }
+      if ($json) {
+        $json = json_decode($json,true);
+        $this->sendJson($host, $json);
+      }
     }
 
     /**
@@ -34,11 +44,11 @@ class FacebookWebhookTest extends Command
      * @param  Int      $fromId
      * @param  String   $text
      */
-    private function sendTestMessage($host, $fromId, $text)
+    private function jsonFromMessage($fromId, $text)
     {
       $id = uniqid();
       // create fake facebook message
-      $message = [[
+      $message = [
         "id" => $id,
         "time" => time(),
         "messaging" => [
@@ -57,8 +67,12 @@ class FacebookWebhookTest extends Command
             ]
           ]
         ]
-      ]];
+      ];
+      return $message;
+    }
 
+    private function sendJson($host, $message)
+    {
       // send fake message
       $this->client->request(
         'POST',

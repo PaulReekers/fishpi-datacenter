@@ -41,11 +41,26 @@ class APIAIMessageParser extends MessageParser implements MessageParserInterface
 
     Log::info(json_encode($response));
 
-    // check if the response has text to reply
-    if (!isset($response->result->speech)) {
-      return;
+    if (isset($response->result->fulfillment)) {
+      // check if the response has text to reply
+      if (isset($response->result->fulfillment->speech)) {
+        $this->responseText = $response->result->fulfillment->speech;
+      }
+      if (isset($response->result->fulfillment->messages)) {
+        foreach ($response->result->fulfillment->messages as $message) {
+          if ($message->type == 2) {
+            $this->responseText = $message->title;
+            $this->responseQuickReplies = $message->replies;
+            return;
+          }
+        }
+      }
     }
-    $this->responseText = $response->result->speech;
+
+    // check if the response has text to reply
+    if (isset($response->result->speech)) {
+      $this->responseText = $response->result->speech;
+    }
 
     // check if the response has an action to call (otherwise return the text we received)
     if (!isset($response->result->action)) {

@@ -43,11 +43,13 @@ class APIAIClient
         'Accept' => 'application/json'
       ],
       'query' => [
+        'v' => '20150910',
         'sessionId' => $from,
         'query' => $text,
-        'lang' => 'en'
+        'lang' => 'en',
       ]
     ];
-    return $this->client->get('/v1/query?v=20150910', $params);
+
+    return $this->client->get('/api/query', $params);
   }
 }
