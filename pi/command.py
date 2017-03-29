@@ -165,7 +165,6 @@ def runTestLights(loops):
   loops-=1
   if loops>1:
     runTestLights(loops)
-  
 
 def runTest(speed):
   clearLeds()
