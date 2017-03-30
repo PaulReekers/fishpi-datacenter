@@ -18,5 +18,11 @@ To find a list of all the variables you can customize open:
 ### Create tables
 Run `php artisan migrate` to create all the tables and colummns.
 
-### Create MQTT server 
+### Create MQTT server
 Run `docker-compose -d up`
+
+### Raspberry reboot
+`screen -ls` check if command screen is running else run
+`screen -dm -L -S command python /home/pi/command.py`
+
+cat /etc/rc.local
