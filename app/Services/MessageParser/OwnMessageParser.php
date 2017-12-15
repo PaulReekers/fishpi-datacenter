@@ -7,6 +7,7 @@ use App\Services\MessageParser\MessageParserInterface;
 use Log;
 use App\Option;
 use App\Question;
+use DB;
 
 class OwnMessageParser extends MessageParser implements MessageParserInterface
 {
@@ -33,14 +34,19 @@ class OwnMessageParser extends MessageParser implements MessageParserInterface
       $option = Option::find($optionId);
 
       if ($option) {
-        $question = Question::whereHas('parentOptions', function($q) use ($option) {
-          $q->where('option_id', '=', $option->id);
-        })->with('options')->first();
+        $question = Question::find($option->to_question_id);
       }
     }
 
     if (!$question) {
-      $question = Question::whereDoesntHave('parentOptions')->with('options')->first();
+
+      $question = DB::table("questions")->select('id')
+        ->whereNotIn('id',function($query){
+          $query->select('to_question_id')->from('options');
+        })->first();
+      if ($question) {
+        $question = Question::find($question->id);
+      }
     }
 
     if ($question) {

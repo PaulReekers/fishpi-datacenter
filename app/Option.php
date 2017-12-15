@@ -19,4 +19,9 @@ class Option extends Model
   {
     return $this->belongsTo('App\Question');
   }
+
+  public function toQuestion()
+  {
+    return $this->belongsTo('App\Question', 'id', 'to_question_id');
+  }
 }

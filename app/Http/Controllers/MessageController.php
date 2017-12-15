@@ -7,6 +7,7 @@ use App\Services\FacebookMessageHandler;
 use Log;
 use App\Question;
 use App\Option;
+use DB;
 
 class MessageController extends Controller
 {
@@ -20,7 +21,7 @@ class MessageController extends Controller
 
   public function all()
   {
-    $questions = Question::with('options')->with("parentOptions")->get();
+    $questions = Question::with('options')->get();
     return $questions->toArray();
   }
 
@@ -50,18 +51,24 @@ class MessageController extends Controller
 
       $option = $request->input('option', false);
 
+      $first = Question::count();
       // check if we already have an start question then we dont allow adding a new question without an option
-      if (Question::whereDoesntHave('parentOptions')->first() && !$option) {
+      if ($first && !$option) {
         return response(['error' => 'We already have a first question you need to add an option as a parent'], 400);
       }
 
-      if ($option && !Option::find($option)) {
+      if ($option && !$optionModel = Option::find($option)) {
         return response(['error' => 'Option not found'], 400);
+      }
+
+      if ($option && $optionModel->to_question_id > 0) {
+        return response(['error' => 'Option already in use'], 400);
       }
 
       $question = Question::create($data);
       if ($option) {
-        $question->parentOptions()->attach($option);
+        $optionModel->to_question_id = $question->id;
+        $optionModel->save();
       }
     }
 
@@ -116,7 +123,7 @@ class MessageController extends Controller
     if ($id) {
       $question = Question::find($id);
     } else {
-      $question = Question::whereDoesntHave('parentOptions')->first();
+      $question = Question::first();
     }
 
     if (!$question) {
@@ -126,8 +133,7 @@ class MessageController extends Controller
     return [
       "status" => "oke",
       "question" => $question->toArray(),
-      "options" => $question->options()->get()->toArray(),
-      "parentOptions" => $question->parentOptions()->with('question')->get()->toArray()
+      "options" => $question->options()->get()->toArray()
     ];
   }
 }

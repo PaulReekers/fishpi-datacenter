@@ -14,11 +14,6 @@ class Question extends Model
       'attachment'
   ];
 
-  public function parentOptions()
-  {
-    return $this->belongsToMany('App\Option');
-  }
-
   public function options()
   {
     return $this->hasMany('App\Option');
