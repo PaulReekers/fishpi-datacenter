@@ -53,7 +53,9 @@ class OwnMessageParser extends MessageParser implements MessageParserInterface
         $image = $question->attachment;
       }
       foreach ($question->options()->get() as $option) {
-        $quickReplies[ $option->id ] = $option->text;
+        if ($option->text != "") {
+          $quickReplies[ $option->id ] = $option->text;
+        }
       }
     }
 
