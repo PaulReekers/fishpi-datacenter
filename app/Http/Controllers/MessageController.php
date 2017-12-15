@@ -91,16 +91,21 @@ class MessageController extends Controller
       return response(['error' => 'Question not found'], 400);
     }
 
-    $text = $request->input('text', '');
-    $attachment = $request->input('attachment', '');
+    $text = $request->input('text', false);
+    $attachment = $request->input('attachment', false);
     $to_question_id = $request->input('to_question_id', false);
 
     $data = [
-      'text' => $text,
-      'attachment' => $attachment,
-      'question_id' => $id,
-      'to_question_id' => 0
+      'question_id' => $id
     ];
+
+    if ($text) {
+      $data['text'] = $text;
+    }
+
+    if ($attachment) {
+      $data['attachment'] = $attachment;
+    }
 
     if ($to_question_id) {
       $data['to_question_id'] = $to_question_id;
