@@ -17,6 +17,7 @@ class MessageController extends Controller
   public function __construct()
   {
     header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
   }
 
   public function all()
