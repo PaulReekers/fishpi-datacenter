@@ -39,6 +39,16 @@ Route::post('/admin', array('uses' => 'AdminController@store'));
 
 Route::get('/admin/commands', 'AdminController@commands');
 
+
+Route::post('api/v1/question','MessageController@storeQuestion');
+Route::post('api/v1/question/{id}','MessageController@storeQuestion');
+Route::post('api/v1/question/{id}/option','MessageController@storeOptionQuestion');
+Route::post('api/v1/question/{id}/option/{option}','MessageController@storeOptionQuestion');
+
+Route::get('api/v1/question','MessageController@getQuestion');
+Route::get('api/v1/question/{id}','MessageController@getQuestion');
+
+
 Route::get('api/v1/data','FishDataController@index');
 Route::get('api/v1/data/store','FishDataController@store');
 Route::get('api/v1/data/current','FishDataController@current');
