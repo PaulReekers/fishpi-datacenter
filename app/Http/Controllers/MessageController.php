@@ -127,7 +127,7 @@ class MessageController extends Controller
       "status" => "oke",
       "question" => $question->toArray(),
       "options" => $question->options()->get()->toArray(),
-      "parentOptions" => $question->parentOptions()->get()->toArray()
+      "parentOptions" => $question->parentOptions()->with('question')->get()->toArray()
     ];
   }
 }
