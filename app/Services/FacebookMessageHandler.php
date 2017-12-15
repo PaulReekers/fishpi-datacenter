@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Services\MessageParser\APIAIMessageParser;
+use App\Services\MessageParser\GoogleImageParser;
+use App\Services\MessageParser\OwnMessageParser;
 use App\Services\ActionRunner\FishPIActionRunner;
 use App\Services\FacebookMessageResponseSender;
 use Log;
@@ -11,15 +13,18 @@ class FacebookMessageHandler
 {
 
   private $parser = null;
+  private $imageParser = null;
   private $sender = null;
   private $runner = null;
 
   public function __construct(
     FacebookMessageResponseSender $sender,
-    APIAIMessageParser $parser,
+    OwnMessageParser $parser,
+    GoogleImageParser $imageParser,
     FishPIActionRunner $runner)
   {
     $this->parser = $parser;
+    $this->imageParser = $imageParser;
     $this->sender = $sender;
     $this->runner = $runner;
   }
@@ -78,13 +83,39 @@ class FacebookMessageHandler
     }
     if (
       !isset($message["sender"]) ||
-      !isset($message["sender"]["id"]) ||
-      !isset($message["message"]["text"])
+      !isset($message["sender"]["id"])
     ) {
-      Log::notice('missing sender id or message text');
+      Log::notice('missing sender id');
       return;
     }
-    $this->checkMessage($message["sender"]["id"], $message["message"]["text"]);
+
+    if (isset($message["message"]["text"])) {
+      $quickReply = false;
+      if (isset($message["message"]["quick_reply"])) {
+        $quickReply = $message["message"]["quick_reply"];
+      }
+      $this->checkMessage($message["sender"]["id"], $message["message"]["text"], $quickReply);
+    }
+
+    if (isset($message["message"]["attachments"])) {
+      foreach ($message["message"]["attachments"] as $attachment) {
+        if (
+          isset($attachment["type"]) &&
+          $attachment["type"]=="image" &&
+          isset($attachment["payload"]["url"])
+        ) {
+          $this->checkImage($message["sender"]["id"], $attachment["payload"]["url"]);
+        }
+      }
+    }
+  }
+
+  private function checkImage($from, $image)
+  {
+    #$this->imageParser->handle($from, $image);
+    #if ($text = $this->imageParser->getResponseText()) {
+    #  $this->checkMessage($from, $text);
+    #}
   }
 
   /**
@@ -92,9 +123,9 @@ class FacebookMessageHandler
    * @param  Int    $from
    * @param  String $text
    */
-  private function checkMessage($from, $text)
+  private function checkMessage($from, $text, $quickReply)
   {
-    $this->parser->handle($from, $text);
+    $this->parser->handle($from, $text, $quickReply);
     $this->handleParserResponse($from);
   }
 

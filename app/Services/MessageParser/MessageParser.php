@@ -12,7 +12,7 @@ class MessageParser implements MessageParserInterface
 
   protected $responseActionParams = [];
 
-  public function handle($from, $text)
+  public function handle($from, $text, $quickReply)
   {
     return $text;
   }

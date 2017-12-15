@@ -11,7 +11,7 @@ interface MessageParserInterface
    * @param  String $text
    * @return Object
    */
-  public function handle($from, $text);
+  public function handle($from, $text, $quickReply);
   public function getResponseText();
   public function getResponseAction();
   public function getResponseActionParams();

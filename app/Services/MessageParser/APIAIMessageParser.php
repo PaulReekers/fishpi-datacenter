@@ -21,7 +21,7 @@ class APIAIMessageParser extends MessageParser implements MessageParserInterface
    * @param  String $text
    * @return Object
    */
-  public function handle($from, $text)
+  public function handle($from, $text, $quickReply)
   {
     $response = $this->client->handle($from, $text);
     $this->handleResponse($response);

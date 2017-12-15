@@ -26,11 +26,11 @@ class FacebookMessageResponseSender
         $messageData = ['text' => $message];
         if (!empty($quickreplies)) {
             $messageData['quick_replies'] = [];
-            foreach ($quickreplies as $quickreply) {
+            foreach ($quickreplies as $key => $quickreply) {
                 $messageData['quick_replies'][] = [
                     "content_type" => "text",
                     "title" => $quickreply,
-                    "payload" => $quickreply,
+                    "payload" => $key,
                 ];
             }
         }
