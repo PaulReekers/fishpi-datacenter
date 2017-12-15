@@ -32,7 +32,11 @@ class OwnMessageParser extends MessageParser implements MessageParserInterface
       $optionId = $quickReply["payload"];
       $option = Option::find($optionId);
 
-      $question = Question::has('parentOptions', '=', $option->id)->with('options')->first();
+      if ($option) {
+        $question = Question::whereHas('parentOptions', function($q) use ($option) {
+          $q->where('option_id', '=', $option->id);
+        })->with('options')->first();
+      }
     }
 
     if (!$question) {
