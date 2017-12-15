@@ -35,8 +35,6 @@ class FacebookMessageResponseSender
             }
         }
 
-        Log::notice(json_encode($messageData));
-
         try {
             $client->request(
                 'POST',
@@ -67,39 +65,66 @@ class FacebookMessageResponseSender
      */
     public function sendImage($recipientUserId, $file)
     {
-        $filePath = resource_path('assets/images/'.$file);
-        $fileContent = fopen($filePath, 'r');
-        $fileMimeType = mime_content_type($filePath);
-        $fileName = basename($file);
+
+        $host = parse_url($file, PHP_URL_HOST);
+        if ($host) {
+
+            $data = [
+                'json' => [
+                    'recipient' => [
+                        'id' => $recipientUserId
+                    ],
+                    'message' => [
+                        'attachment' => [
+                            "type" => 'image',
+                            'payload' => [
+                                "url" => $file,
+                                "is_reusable" => true
+                            ]
+                        ]
+                    ]
+                ]
+            ];
+
+        } else {
+            $filePath = resource_path('assets/images/'.$file);
+            $fileContent = fopen($filePath, 'r');
+            $fileMimeType = mime_content_type($filePath);
+            $fileName = basename($file);
+
+            $data = [
+                'multipart' => [
+                    [
+                        "name" => "recipient",
+                        "contents" => json_encode(["id" => $recipientUserId])
+                    ],[
+                        "name" => "message",
+                        "contents" => json_encode(["attachment" => [ "type" => "image", "payload" => []]])
+                    ],[
+                        "name" => "filedata",
+                        "filename" => $fileName,
+                        "Mime-Type" => $fileMimeType,
+                        "contents" => $fileContent
+                    ]
+                ]
+            ];
+        }
+
+        Log::info($data);
 
         $client = new Client(['base_uri' => 'https://graph.facebook.com/v2.6/']);
         try {
             $client->request(
                 'POST',
                 'me/messages',
-                [
-                    'query' => ['access_token' => env('FACEBOOK_PAGE_ACCESS_TOKEN')],
-                    'multipart' => [
-                        [
-                            "name" => "recipient",
-                            "contents" => json_encode(["id" => $recipientUserId])
-                        ],[
-                            "name" => "message",
-                            "contents" => json_encode(["attachment" => [ "type" => "image", "payload" => []]])
-                        ],[
-                            "name" => "filedata",
-                            "filename" => $fileName,
-                            "Mime-Type" => $fileMimeType,
-                            "contents" => $fileContent
-                        ]
-                    ]
-                ]
+                array_merge(['query' => ['access_token' => env('FACEBOOK_PAGE_ACCESS_TOKEN')]], $data)
             );
         } catch (\Exception $e) {
             Log::notice((string)$e);
             Log::notice('Sending went wrong with message: '.$e->getMessage());
             return false;
         }
+
         return true;
     }
 }

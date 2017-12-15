@@ -12,6 +12,8 @@ class MessageParser implements MessageParserInterface
 
   protected $responseActionParams = [];
 
+  protected $responseImage = false;
+
   public function handle($from, $text, $quickReply)
   {
     return $text;
@@ -35,5 +37,10 @@ class MessageParser implements MessageParserInterface
   public function getResponseQuickReplies()
   {
     return $this->responseQuickReplies;
+  }
+
+  public function getResponseImage()
+  {
+    return $this->responseImage;
   }
 }

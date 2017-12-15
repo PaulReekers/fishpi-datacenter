@@ -138,9 +138,13 @@ class FacebookMessageHandler
     $responseTexts = [
       [
         "text" => $this->parser->getResponseText(),
-        "quickreplies" => $this->parser->getResponseQuickReplies()
+        "quickreplies" => $this->parser->getResponseQuickReplies(),
       ]
     ];
+
+    if ($image = $this->parser->getResponseImage()) {
+      $responseImages[] = $image;
+    }
 
     if ($action = $this->parser->getResponseAction()) {
       Log::notice("Try to run: ".$action);
@@ -153,14 +157,14 @@ class FacebookMessageHandler
       }
     }
 
-    foreach ($responseTexts as $responseText) {
-      Log::notice("Send text");
-      $this->sender->sendQuote($from, $responseText);
-    }
-
     foreach ($responseImages as $responseImage) {
       Log::notice("Send image");
       $this->sender->sendImage($from, $responseImage);
+    }
+
+    foreach ($responseTexts as $responseText) {
+      Log::notice("Send text");
+      $this->sender->sendQuote($from, $responseText);
     }
   }
 }

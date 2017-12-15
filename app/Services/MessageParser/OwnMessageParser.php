@@ -27,6 +27,7 @@ class OwnMessageParser extends MessageParser implements MessageParserInterface
   {
     $text = "What tha hack are you talking about!";
     $quickReplies = [];
+    $image = false;
 
     $question = false;
     if ($quickReply && isset($quickReply["payload"])) {
@@ -48,11 +49,15 @@ class OwnMessageParser extends MessageParser implements MessageParserInterface
 
     if ($question) {
       $text = $question->text;
+      if ($question->attachment) {
+        $image = $question->attachment;
+      }
       foreach ($question->options()->get() as $option) {
         $quickReplies[ $option->id ] = $option->text;
       }
     }
 
+    $this->responseImage = $image;
     $this->responseText = $text;
     $this->responseQuickReplies = $quickReplies;
   }
