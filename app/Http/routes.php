@@ -45,6 +45,7 @@ Route::post('api/v1/question/{id}','MessageController@storeQuestion');
 Route::post('api/v1/question/{id}/option','MessageController@storeOptionQuestion');
 Route::post('api/v1/question/{id}/option/{option}','MessageController@storeOptionQuestion');
 
+Route::get('api/v1/questions','MessageController@all');
 Route::get('api/v1/question','MessageController@getQuestion');
 Route::get('api/v1/question/{id}','MessageController@getQuestion');
 

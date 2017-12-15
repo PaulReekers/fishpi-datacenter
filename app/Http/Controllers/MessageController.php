@@ -18,6 +18,12 @@ class MessageController extends Controller
     header("Access-Control-Allow-Origin: *");
   }
 
+  public function all()
+  {
+    $questions = Question::with('options')->with("parentOptions")->get();
+    return $questions->toArray();
+  }
+
   /**
    * Facebook check webhook
    * @param  Request $request [description]
