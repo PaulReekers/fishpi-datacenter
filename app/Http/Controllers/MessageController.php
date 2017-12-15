@@ -37,7 +37,8 @@ class MessageController extends Controller
 
     $data = [
       'text' => $text,
-      'attachment' => $attachment
+      'attachment' => $attachment,
+      'first' => 0
     ];
 
     if ($id) {
@@ -51,7 +52,7 @@ class MessageController extends Controller
 
       $option = $request->input('option', false);
 
-      $first = Question::count();
+      $first = Question::where('first', '=', 1)->first();
       // check if we already have an start question then we dont allow adding a new question without an option
       if ($first && !$option) {
         return response(['error' => 'We already have a first question you need to add an option as a parent'], 400);
@@ -63,6 +64,10 @@ class MessageController extends Controller
 
       if ($option && $optionModel->to_question_id > 0) {
         return response(['error' => 'Option already in use'], 400);
+      }
+
+      if (!$option) {
+        $data['first'] = 1;
       }
 
       $question = Question::create($data);
@@ -90,12 +95,18 @@ class MessageController extends Controller
 
     $text = $request->input('text', '');
     $attachment = $request->input('attachment', '');
+    $to_question_id = $request->input('to_question_id', false);
 
     $data = [
       'text' => $text,
       'attachment' => $attachment,
-      'question_id' => $id
+      'question_id' => $id,
+      'to_question_id' => 0
     ];
+
+    if ($to_question_id) {
+      $data['to_question_id'] = $to_question_id;
+    }
 
     if ($option) {
       $option = Option::find($option);
@@ -123,7 +134,7 @@ class MessageController extends Controller
     if ($id) {
       $question = Question::find($id);
     } else {
-      $question = Question::first();
+      $question = Question::where('first', '=', 1)->first();
     }
 
     if (!$question) {

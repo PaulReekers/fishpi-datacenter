@@ -11,7 +11,8 @@ class Question extends Model
 
   protected $fillable = [
       'text',
-      'attachment'
+      'attachment',
+      'first'
   ];
 
   public function options()

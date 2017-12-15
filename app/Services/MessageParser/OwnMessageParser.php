@@ -40,10 +40,7 @@ class OwnMessageParser extends MessageParser implements MessageParserInterface
 
     if (!$question) {
 
-      $question = DB::table("questions")->select('id')
-        ->whereNotIn('id',function($query){
-          $query->select('to_question_id')->from('options');
-        })->first();
+      $question = Question::where('first', '=', 1)->first();
       if ($question) {
         $question = Question::find($question->id);
       }
