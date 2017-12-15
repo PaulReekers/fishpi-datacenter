@@ -24,15 +24,22 @@ class OwnMessageParser extends MessageParser implements MessageParserInterface
    */
   public function handle($from, $text, $quickReply)
   {
-    $text = "That is not an answer I was looking for!";
+    $text = "What tha hack are you talking about!";
     $quickReplies = [];
 
+    $question = false;
     if ($quickReply && isset($quickReply["payload"])) {
       $optionId = $quickReply["payload"];
       $option = Option::find($optionId);
 
       $question = Question::has('parentOptions', '=', $option->id)->with('options')->first();
+    }
 
+    if (!$question) {
+      $question = Question::whereDoesntHave('parentOptions')->with('options')->first();
+    }
+
+    if ($question) {
       $text = $question->text;
       foreach ($question->options()->get() as $option) {
         $quickReplies[ $option->id ] = $option->text;
