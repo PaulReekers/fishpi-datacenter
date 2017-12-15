@@ -107,7 +107,7 @@ class MessageController extends Controller
       $data['attachment'] = $attachment;
     }
 
-    if ($to_question_id) {
+    if ($to_question_id !== false) {
       $data['to_question_id'] = $to_question_id;
     }
 
